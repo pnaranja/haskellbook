@@ -1,0 +1,53 @@
+Combinators
+    1. Yes
+    2. No
+    3. Yes
+    4. Yes
+    5. No
+
+Converge or Diverge?
+    1. Converge
+    2. Diverge
+    3. Converge
+
+BetaReduce
+    1. (\abc.cba)zz(\wv.w)
+       (\bc.cbzz)(\wv.w)
+       (\c.c(\wv.w)zz)
+       (\c.c(\v.z)z)
+       (\c.c)z
+       z
+
+    2. (\x.\y.xyy)(\a.a)b
+        (\y.(\a.a)yy)b
+        (\a.a)bb
+        bb
+
+    3. (\y.y)(\x.xx)(\z.zq)
+        (\x.xx)(\z.zq)
+        (\z.zq)(\z.zq)
+        (\z.zq)q
+        qq
+
+    4. (\z.z)(\z.zz)(\z.zy)
+        (\z.zz)(\z.zy)
+        (\z.zy)(\z.zy)
+        (\z.zy)y
+        yy
+
+    5. (\x.\y.xyy)(\y.y)y
+        (\y.(\y.y)yy)y
+        (\y.y)yy
+        yy
+
+    6. (\a.aa)(\b.ba)c
+        (\b.ba)(\b.ba)c
+        (\b.ba)ac
+        aac
+
+    7. (\x\y\z.xz(yz))(\x.z)(\x.a)
+        (\y\z.(\x.z)z(yz))(\x.a)
+        (\z.(\x.z)z((\x.a)z))
+        (\z.z((\x.a)z))
+        (\z.za)
+
