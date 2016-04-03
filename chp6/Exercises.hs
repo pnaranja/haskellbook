@@ -1,3 +1,4 @@
+-- Exercises for Chapter 6
 
 main :: IO ()
 main = undefined
@@ -38,3 +39,22 @@ instance (Eq a, Eq b) => Eq (EitherOr a b) where
     (==) (Goodbye b) (Goodbye b') = b == b'
     (==) (Hello _) (Goodbye _) = False
     (==) (Goodbye _) (Hello _) = False
+
+--Chapter Exercises
+-- TypeCheck
+data Person = Person Bool
+printPerson :: Person -> IO ()
+printPerson person = putStrLn (show person)
+-- Should not type check because person is not an instance of Show
+instance Show Person where
+    show (Person a) = show a
+
+data Mood = Blah | Woot deriving Show
+settleDown x = if x == Woot
+                  then Blah
+                  else x
+-- Should not type check because x can be infinite types, also no Eq type class instance of Mood
+instance Eq Mood where
+    (==) Blah Blah = True
+    (==) Woot Woot = True
+    (==) _ _ = False
