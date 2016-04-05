@@ -58,3 +58,33 @@ instance Eq Mood where
     (==) Blah Blah = True
     (==) Woot Woot = True
     (==) _ _ = False
+
+
+type Subject = String
+type Verb = String
+type Object = String
+
+data Sentence = Sentence Subject Verb Object deriving (Eq, Show)
+
+s1 = Sentence "dogs" "drool"
+s2 = Sentence "Julie" "loves" "dogs"
+-- s1 is a partial function and is not instance of Show 
+
+
+data Rocks = Rocks String deriving ( Eq, Show)
+data Yeah = Yeah Bool deriving (Eq, Show)
+data Papu = Papu Rocks Yeah deriving (Eq, Show)
+
+-- Probably won't type check because phew incorrectly forms Rocks and Yeah data constructors
+--phew = Papu "chases" True
+
+-- The truth function should type check because it uses proper data constructors for Rocks and Yeah
+truth = Papu (Rocks "chomskydoz") (Yeah True)
+
+-- The equalityForAll function should type check because Papu is an instance of Eq
+equalityForAll :: Papu -> Papu -> Bool
+equalityForAll p p' = p == p
+
+-- The comparePapus function should not type check because Papu is not an instance of Ord
+--comparePapus :: Papu -> Papu -> Bool
+--comparePapus p p' = p > p
