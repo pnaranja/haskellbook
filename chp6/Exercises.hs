@@ -1,4 +1,5 @@
 -- Exercises for Chapter 6
+import Data.List (sort)
 
 main :: IO ()
 main = undefined
@@ -88,3 +89,54 @@ equalityForAll p p' = p == p
 -- The comparePapus function should not type check because Papu is not an instance of Ord
 --comparePapus :: Papu -> Papu -> Bool
 --comparePapus p p' = p > p
+
+
+-- Match the types
+i :: a
+i = undefined
+-- Num a cannot turn into a
+
+f :: Num a => a
+f = undefined
+-- Num a can turn into Fractional
+
+f' :: Float
+f' = undefined
+-- Float can turn into Fractional
+
+f'' :: Float
+f'' = undefined
+-- Float can turn into RealFrac
+
+freud :: a -> a
+freud = undefined
+-- a->a can turn into Ord a => a -> a
+
+freud' :: Int -> Int
+freud' x = x
+-- a->a can turn into Int->Int
+
+myX = 1 :: Int
+sigmund :: Int -> Int
+sigmund x = myX
+-- Int->Int cannot turn into a->a
+
+myX' = 1 :: Int
+sigmund' :: Int -> Int
+sigmund' x = myX'
+-- Int->Int can turn into Num a => a->a
+
+jung :: [Int] -> Int
+jung xs = head (sort xs)
+-- Ord a => [a] -> a can turn into [Int] -> Int
+
+young :: Ord a => [a] -> a
+young xs = head (sort xs)
+-- [Char] -> Char can turn into Ord a => [a] -> a
+
+mySort :: [Char] -> [Char]
+mySort = sort
+
+signifier :: [Char] -> Char
+signifier xs = head (mySort xs)
+-- [Char]->Char cannot turn into Ord a => [a] -> a
