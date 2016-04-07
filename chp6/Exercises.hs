@@ -140,3 +140,13 @@ mySort = sort
 signifier :: [Char] -> Char
 signifier xs = head (mySort xs)
 -- [Char]->Char cannot turn into Ord a => [a] -> a
+
+
+-- Type-Kwon-Do
+chk :: Eq b => (a->b) -> a -> b -> Bool
+chk f a b = f a == b
+-- Example: chk (\x-> x+6) 5 11  == True
+
+arith :: Num b => (a->b) -> Integer -> a -> b
+arith f i a = f a + fromInteger i
+-- Example arith (\x->x+5) 6 6  == 17
