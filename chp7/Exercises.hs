@@ -42,3 +42,13 @@ pal xs
   | xs == (reverse xs) = True
   | otherwise = False
 
+-- Chapter Exercises
+tensDigit :: Integral a => a -> a
+tensDigit x = d
+    where xLast =  (div) x 10
+          d = (mod) xLast 10
+
+tensDigit' = \x -> snd . (\y-> divMod y 10) . fst . divMod x $ 10
+tensDigit'' = \x -> (snd . (\y-> divMod y 10) . fst . divMod x) 10
+
+hunsD = \x -> snd . divMod x $ 10
