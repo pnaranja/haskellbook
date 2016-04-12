@@ -51,4 +51,22 @@ tensDigit x = d
 tensDigit' = \x -> snd . (\y-> divMod y 10) . fst . divMod x $ 10
 tensDigit'' = \x -> (snd . (\y-> divMod y 10) . fst . divMod x) 10
 
-hunsD = \x -> snd . divMod x $ 10
+hunsD = \x -> fst . (\y-> divMod y 10) . fst . divMod x $ 10
+
+foldBool :: a -> a -> Bool -> a
+foldBool x y z
+  | z == True = x
+  | z == False = y
+
+foldBool' x y z = case (z==True) of
+                   True -> x
+                   False -> y
+
+g :: (a -> b) -> (a,c) -> (b,c)
+g f (a, c) = (f a, c)
+
+roundTrip :: (Show a, Read a) => a -> a
+roundTrip a = read (show a)
+
+roundTrip' :: (Show a, Read a) => a -> a
+roundTrip' = read . show
