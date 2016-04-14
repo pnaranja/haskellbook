@@ -70,3 +70,6 @@ roundTrip a = read (show a)
 
 roundTrip' :: (Show a, Read a) => a -> a
 roundTrip' = read . show
+
+roundTrip'' :: (Show a, Read b) => a -> b
+roundTrip'' = (\x->read (x ::String)) . show
