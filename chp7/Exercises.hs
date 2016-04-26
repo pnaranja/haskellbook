@@ -1,6 +1,6 @@
 -- Exercises and Notes for Chapter 7
-main :: IO ()
-main = undefined
+--main :: IO ()
+--main = undefined
 
 -- Lexical scope
 x    =  5
@@ -28,7 +28,7 @@ functionC x y = case (x>y) of
                   True -> x
                   False -> y
 
-ifEvenAdd2 x = case (even x) of
+ifEvenAdd2 x = case (even x) ofhttp://grs-whalers.trilliant.local:8080/job/development_secure_mesh_hes_995_HF/
                  True -> x+2
                  False -> x
 
@@ -73,3 +73,7 @@ roundTrip' = read . show
 
 roundTrip'' :: (Show a, Read b) => a -> b
 roundTrip'' = (\x->read (x ::String)) . show
+
+main = do
+    print (roundTrip 4)
+    print (id 4)
