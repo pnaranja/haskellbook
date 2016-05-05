@@ -68,3 +68,23 @@ divideBy' n d           =  go n d 0
     where go n d count
             | n < d         =  (count, n)
             | otherwise     =  go (n-d) d (count+1)
+
+-- Recusively sum xumbers from 1 to x
+recusiveSum :: (Eq a, Num a) => a -> a
+recusiveSum x = go x 1 0
+    where go n count thesum
+            | n == 0 = thesum
+            | otherwise = go (n-1) (count+1) (thesum+count)
+
+
+recusiveSum' :: Int -> Int
+recusiveSum' x = sum . take x . enumFrom $ 1
+
+-- Recusively multiply summing recusively
+multiplyBySum :: (Integral a) => a -> a -> a
+multiplyBySum x y = go x y x
+    where go a b thesum
+           | a==0 || b==0  =  0
+           | a == 1        =  b
+           | b == 1        =  thesum
+           | otherwise     =  go a (b-1) (thesum+a)
