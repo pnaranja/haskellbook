@@ -62,4 +62,9 @@ divideBy n d
  | n-d == 0 = 1
  | otherwise = 1 + divideBy (n-d) d
 
-
+-- Use common "go" idiom to create sort of "recusive tail call"
+divideBy' :: (Integral a) => a -> a -> (a,a)
+divideBy' n d           =  go n d 0
+    where go n d count
+            | n < d         =  (count, n)
+            | otherwise     =  go (n-d) d (count+1)
