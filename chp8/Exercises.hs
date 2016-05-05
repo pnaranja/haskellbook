@@ -33,3 +33,33 @@ f_bottom False = 0
 f_bottom2 :: Bool -> Int
 f_bottom2 False = 0
 
+-- Change partial function to handle all possible inputs
+-- One way, use Maybe datatype
+data MyMaybe a = Just a | Nothing
+f :: Bool -> MyMaybe Int
+f False = Main.Just 0
+f _ = Main.Nothing
+
+-- Fibonacci
+-- input and output are positive whole numbers
+-- Determine "base case(s)" - how it will terminate
+fibonacci :: (Integral a) => a -> a
+fibonacci 0 = 0
+fibonacci 1 = 1
+fibonacci x = fibonacci (x-1) + fibonacci (x-2)
+
+-- Division through recursive subtraction
+-- Create readable types
+-- Adding up the number of times you substract (Numerator-Denominator)
+-- Stop subtracting if difference is equal or less than 0
+type Numerator = Integer
+type Denominator = Integer
+type Quotient = Integer
+
+divideBy :: Numerator -> Denominator -> Quotient
+divideBy n d
+ | n-d < 0 = 0
+ | n-d == 0 = 1
+ | otherwise = 1 + divideBy (n-d) d
+
+
