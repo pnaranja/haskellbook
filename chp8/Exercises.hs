@@ -88,3 +88,19 @@ multiplyBySum x y = go x y x
            | a == 1        =  b
            | b == 1        =  thesum
            | otherwise     =  go a (b-1) (thesum+a)
+
+
+-- Fix deviceBy' function
+-- Make sure it handles divide by 0
+-- and negative numbers
+
+data DivideResult = Result Integer | DividedByZero
+
+divideBy'' :: (Integral a) => a -> a -> (DivideResult,a)
+divideBy'' n d           =  go n d 0
+    where go n d count
+            | d == 0     =  (DividedByZero,0)
+            | d <= 0     =  (go n (d * (-1)) count) * (-1)
+            | n <= 0     =  (go (n * (-1)) d count) * (-1)
+            | n < d      =  (Result count, n)
+            | otherwise  =  go (n-d) d (count+1)
