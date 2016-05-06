@@ -95,12 +95,17 @@ multiplyBySum x y = go x y x
 -- and negative numbers
 
 data DivideResult = Result Integer | DividedByZero
+    deriving Show
+
+neg :: (Integral a) => (DivideResult,a) -> (DivideResult,a)
+neg (Result c, d)  =  (Result ((-1) * c), d)
+neg (DividedByZero, d)  =  (DividedByZero, d)
 
 divideBy'' :: (Integral a) => a -> a -> (DivideResult,a)
 divideBy'' n d           =  go n d 0
     where go n d count
-            | d == 0     =  (DividedByZero,0)
-            | d <= 0     =  (go n (d * (-1)) count) * (-1)
-            | n <= 0     =  (go (n * (-1)) d count) * (-1)
-            | n < d      =  (Result count, n)
+            | d == 0     =  (DividedByZero, count)
+            | d <= 0     =  neg (go n (d * (-1)) count)
+            | n <= 0     =  neg (go (n * (-1)) d count)
+            | n < d      =  (Result 0, n)
             | otherwise  =  go (n-d) d (count+1)
