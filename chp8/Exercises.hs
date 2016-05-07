@@ -103,9 +103,10 @@ negDivideResult (DividedByZero, d)  =  (DividedByZero, d)
 
 divideBy'' :: (Integral a) => a -> a -> (DivideResult,a)
 divideBy'' n d           =  go n d 0
-    where go n d count
+    where go :: (Integral a) => a -> a -> a -> (DivideResult,a) 
+          go n d count
             | d == 0     =  (DividedByZero, count)
-            | d <= 0     =  negDivideResult (go n (d * (-1)) count)
-            | n <= 0     =  negDivideResult (go (n * (-1)) d count)
-            | n < d      =  (Result count, n)
+            | d < 0     =  negDivideResult . divideBy'' n $ (d * (-1))
+            | n < 0     =  negDivideResult . divideBy'' (n * (-1)) $ d
+            | n < d      =  (Result (toInteger count), n)
             | otherwise  =  go (n-d) d (count+1)
