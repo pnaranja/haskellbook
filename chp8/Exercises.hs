@@ -110,3 +110,10 @@ divideBy'' n d           =  go n d 0
             | n < 0     =  negDivideResult . divideBy'' (n * (-1)) $ d
             | n < d      =  (Result (toInteger count), n)
             | otherwise  =  go (n-d) d (count+1)
+
+-- McCarthy 91 function
+-- x - 10 if x > 100
+-- 91 if x <= 100 --> done recursively it's MC(MC(x+11))
+mc91 x
+    | x > 100    =  x-10
+    | otherwise  =  mc91 . mc91 $ (x+11)
