@@ -20,5 +20,8 @@ digits x
  | x == 0 = []
  | otherwise = digits (div x 10) ++ [mod x 10]
 
+-- Split into digits, turn into words 
+-- Add "+" between each word
+-- Concat each string in the list to make one string
 wordNumber :: Int -> String
-wordNumber = undefined
+wordNumber x = concat $ intersperse "+" $ map digitToWord $ digits x
