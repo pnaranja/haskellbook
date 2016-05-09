@@ -16,7 +16,9 @@ digitToWord x
  | otherwise = "unknown"
 
 digits :: Int -> [Int]
-digits = undefined
+digits x
+ | x == 0 = []
+ | otherwise = digits (div x 10) ++ [mod x 10]
 
 wordNumber :: Int -> String
 wordNumber = undefined
