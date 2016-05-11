@@ -61,4 +61,6 @@ myWords s
  | otherwise = takeWhile (/=' ') s : myWords (dropWhile (== ' ') $ dropWhile (/=' ') s)
 
 myLines :: String -> [String]
-myLines = undefined
+myLines s
+ | s == "" = []
+ | otherwise = takeWhile (/='\n') s : myWords (dropWhile (== '\n') $ dropWhile (/='\n') s)
