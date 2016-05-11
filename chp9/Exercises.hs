@@ -50,3 +50,15 @@ eftChar start end
  | start > end = []
  | otherwise = start : eftChar (incChar start) end
  where incChar = chr . (+1) . ord
+
+
+-- Split string by space
+-- Take the first element up to space
+-- Repeat function with parameter: Drop until finding a space and then drop up to space
+myWords :: String -> [String]
+myWords s
+ | s == "" = []
+ | otherwise = takeWhile (/=' ') s : myWords (dropWhile (== ' ') $ dropWhile (/=' ') s)
+
+myLines :: String -> [String]
+myLines = undefined
