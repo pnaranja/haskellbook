@@ -4,10 +4,13 @@ eftBool :: Bool -> Bool -> [Bool]
 eftBool x y = [x,y]
 
 eftOrd :: Ordering -> Ordering -> [Ordering]
-eftOrd = undefined
+eftOrd x y = [x,y]
 
 eftInt :: Int -> Int -> [Int]
-eftInt = undefined
+eftInt start end
+ | start == end = [end]
+ | start > end = []
+ | otherwise = start : eftInt (start+1) end
 
 eftChar :: Char -> Char -> [Char]
 eftChar = undefined
