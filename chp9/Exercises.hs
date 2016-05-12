@@ -72,3 +72,15 @@ mySplitString split str
 
 myWords' = mySplitString ' '
 myLines' = mySplitString '\n'
+
+-- List Comprehensions (like Python!)
+listC1 = [ x^y | x <- [1..10], y <- [1,2], x^y < 20]
+listC2 = [ x | x <- [1..10], y <- [1,2], x^y < 20] -- The predicate determines if there is an output
+
+-- Remove all lower case letters from a string
+removeLowerCase str = [x | x <- str, elem x ['A'..'Z']]
+
+mySqr = [x^2 | x <- [1..5]]
+myCube = [x^3 | x <- [1..5]]
+
+myTuples = length [(x,y) | x <- mySqr, y <- myCube, x < 50 && y < 50]
