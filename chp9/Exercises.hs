@@ -64,3 +64,11 @@ myLines :: String -> [String]
 myLines s
  | s == "" = []
  | otherwise = takeWhile (/='\n') s : myWords (dropWhile (== '\n') $ dropWhile (/='\n') s)
+
+mySplitString :: Char -> String -> [String]
+mySplitString split str
+ | str == "" = []
+ | otherwise = takeWhile (/=split) str : mySplitString split (dropWhile (== split) $ dropWhile (/=split) str)
+
+myWords' = mySplitString ' '
+myLines' = mySplitString '\n'
