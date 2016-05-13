@@ -100,3 +100,14 @@ b5 = take 1 $ filter even [1,3,undefined] -- no since evaluation will reach unde
 b6 = take 1 $ filter odd [1,3,undefined] -- yes, result is [1]
 b7 = take 2 $ filter odd [1,3,undefined] -- yes, result is [1,3]
 b8 = take 3 $ filter odd [1,3,undefined] -- no since evaluation will reach undefined element
+
+-- Weak Head Normal Form or Normal Form or neither?
+-- By ‘normal form’ we mean that the expression is fully evaluated. 
+-- Weak head normal form’ means the expression is only evaluated as far as is necessary to reach a data constructor.
+b9 = [1,2,3,4,5] -- WHNF and NF
+-- b10 = 1:2:3:4:_ -- Neither WHNF or NF??  "Found hole '_' with type [a]
+b10 = enumFromTo 1 10 -- WHNF since it can be evaluated
+b11 = length [1,2,3,4,5] -- WHNF since it can be evaluated 
+b12 = sum (enumFromTo 1 10) -- WHNF since it can be evaluated 
+b13 =  ['a'..'m'] ++ ['n' .. 'z'] -- WHNF since it can be evaluated 
+b14 = (_,'b') -- WHNF since it can be evaluated 
