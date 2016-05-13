@@ -84,3 +84,19 @@ mySqr = [x^2 | x <- [1..5]]
 myCube = [x^3 | x <- [1..5]]
 
 myTuples = length [(x,y) | x <- mySqr, y <- myCube, x < 50 && y < 50]
+
+-- Bottom Madness
+-----------------
+-- Will this "bottom"? - (Not return a result)
+bottom1 = [x^y | x <- [1..5], y <- [2, undefined]] -- bottoms!
+bottom2 = take 1 bottom1 -- [1]
+
+-- Will this return a value?
+b1 = sum[1,undefined,3] -- no
+b2 = length [1,2, undefined] -- yes, result is 3
+b3 = length $ [1,2,3] ++ undefined -- no, because the spine itself is undefined?
+b4 = take 1 $ filter even [1,2,3,undefined] -- yes, result is [2]
+b5 = take 1 $ filter even [1,3,undefined] -- no since evaluation will reach undefined element
+b6 = take 1 $ filter odd [1,3,undefined] -- yes, result is [1]
+b7 = take 2 $ filter odd [1,3,undefined] -- yes, result is [1,3]
+b8 = take 3 $ filter odd [1,3,undefined] -- no since evaluation will reach undefined element
