@@ -1,6 +1,7 @@
 module Exercises where
 
 import Data.Char
+import Data.Bool
 
 instance Num Bool where
     (+) False 1 = True
@@ -110,4 +111,23 @@ b10 = enumFromTo 1 10 -- WHNF since it can be evaluated
 b11 = length [1,2,3,4,5] -- WHNF since it can be evaluated 
 b12 = sum (enumFromTo 1 10) -- WHNF since it can be evaluated 
 b13 =  ['a'..'m'] ++ ['n' .. 'z'] -- WHNF since it can be evaluated 
-b14 = (_,'b') -- WHNF since it can be evaluated 
+-- b14 = (_,'b') -- WHNF since it can be evaluated 
+
+-- More Bottoms
+-- Return a value or bottom?
+b15 = take 1 $ map (+1) [undefined, 2, 3] -- bottom
+b16 = take 1 $ map (+1) [1, undefined, 3] -- return value
+b17 = take 2 $ map (+1) [1, undefined, 3] -- bottom
+itIsMystery xs = map (\x -> elem x "aeiou") xs -- Returns true if character is a vowel
+
+usingIfThenElse = map (\x -> if x == 3 then (-x) else (x)) [1..10]
+usingBool = map (\x->bool x (-x) (x==3)) [1..10]
+usingBool' = map (\x->bool x (-x) (x==3))
+
+-- Filtering
+filter3 = filter (\x-> (rem x 3) == 0)
+howManyMultiples3 = length . filter3
+
+-- Remove all articles (’the’, ’a’, and ’an’) from sentences
+removeArticles :: String -> [String]
+removeArticles = filter (\x-> not $ elem x ["the", "a", "an"]) . words
