@@ -131,3 +131,16 @@ howManyMultiples3 = length . filter3
 -- Remove all articles (’the’, ’a’, and ’an’) from sentences
 removeArticles :: String -> [String]
 removeArticles = filter (\x-> not $ elem x ["the", "a", "an"]) . words
+
+-- My version of zip
+myZip :: [a] -> [b] -> [(a,b)]
+myZip [] _ = []
+myZip _ [] = []
+myZip (x:xs) (y:ys) = (x,y) : myZip xs ys
+
+myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myZipWith _ [] _ = []
+myZipWith _ _ [] = []
+myZipWith f (x:xs) (y:ys) = (f x y) : myZipWith f xs ys
+
+myZip' = myZipWith (\x y->(x,y))
