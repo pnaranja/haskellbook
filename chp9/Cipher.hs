@@ -6,7 +6,7 @@ shiftRight :: Int -> Char -> Char
 shiftRight i = chr . constrainToLetters . (+i) . ord
 
 shiftLeft :: Int -> Char -> Char
-shiftLeft i = chr . constrainToLetters . (i-) . ord
+shiftLeft i = chr . constrainToLetters . (\x->x-i) . ord
 
 -- ord 'a' == 97; ord 'z' == 122
 constrainToLetters :: Int -> Int
