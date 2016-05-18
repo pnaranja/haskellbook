@@ -144,3 +144,35 @@ myZipWith _ _ [] = []
 myZipWith f (x:xs) (y:ys) = (f x y) : myZipWith f xs ys
 
 myZip' = myZipWith (\x y->(x,y))
+
+-- Chapter Exercises
+allUpperCase = filter (isUpper)
+capitalizeFirst (x:xs) = toUpper x : xs 
+
+capitalizeAll [] = []
+capitalizeAll (x:xs) = toUpper x : capitalizeAll xs 
+
+capitalizeHead = toUpper . head
+
+
+-- My own standard functions
+myOr :: [Bool] -> Bool
+myOr [] = False
+myOr (x:xs) 
+ | x = x
+ | otherwise = myOr xs
+
+myAny :: (a->Bool) -> [a] -> Bool
+myAny _ [] = False
+myAny f (x:xs)
+ | f x = True
+ | otherwise = myAny f xs
+
+myElem :: Eq a => a -> [a] -> Bool
+myElem _ [] = False
+myElem toMatch (x:xs)
+ | toMatch == x = True
+ | otherwise = myElem toMatch xs
+
+myElem' :: Eq a => a -> [a] -> Bool
+myElem' toMatch = any (==toMatch)
