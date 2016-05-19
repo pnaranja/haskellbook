@@ -176,3 +176,16 @@ myElem toMatch (x:xs)
 
 myElem' :: Eq a => a -> [a] -> Bool
 myElem' toMatch = any (==toMatch)
+
+myReverse :: [a] -> [a]
+myReverse [] = []
+myReverse x = last x : myReverse (init x)
+
+squish :: [[a]] -> [a]
+squish = foldl1 (++)
+
+squishMap :: (a->[b]) -> [a] -> [b]
+squishMap f x = squish $ map f x
+
+squishAgain :: [[a]] -> [a]
+squishAgain = squishMap id
