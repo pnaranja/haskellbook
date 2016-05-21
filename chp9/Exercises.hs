@@ -189,3 +189,18 @@ squishMap f x = squish $ map f x
 
 squishAgain :: [[a]] -> [a]
 squishAgain = squishMap id
+
+-- myMaximumBy (\_ _ -> GT) [1..10]  == 1
+-- Traverses the array like a foldl
+-- Since the first number (1) compared to any number
+-- always returns GT, 1 is the final answer
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy f lst = foldl1 (findOrdering GT f) lst
+
+findOrdering :: Ordering -> (a -> a -> Ordering) -> a -> a -> a
+findOrdering o f x y
+ | f x y == o = x
+ | otherwise = y
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy f lst = foldl1 (findOrdering LT f) lst
