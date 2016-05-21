@@ -195,7 +195,7 @@ squishAgain = squishMap id
 -- Since the first number (1) compared to any number
 -- always returns GT, 1 is the final answer
 myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
-myMaximumBy f lst = foldl1 (findOrdering GT f) lst
+myMaximumBy f = foldl1 (findOrdering GT f)
 
 findOrdering :: Ordering -> (a -> a -> Ordering) -> a -> a -> a
 findOrdering o f x y
@@ -203,4 +203,4 @@ findOrdering o f x y
  | otherwise = y
 
 myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
-myMinimumBy f lst = foldl1 (findOrdering LT f) lst
+myMinimumBy f = foldl1 (findOrdering LT f)
