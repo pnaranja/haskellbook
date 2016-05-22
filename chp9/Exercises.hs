@@ -204,3 +204,9 @@ findOrdering o f x y
 
 myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
 myMinimumBy f = foldl1 (findOrdering LT f)
+
+myMaximum :: (Ord a, Foldable t) -> t a -> a
+myMaximum = myMaximumBy compare
+
+myMinimum :: (Ord a, Foldable t) -> t a -> a
+myMinimum = myMinimumBy compare
