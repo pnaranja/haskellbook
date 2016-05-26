@@ -66,3 +66,8 @@ myFoldl f acc (x:xs) = myFoldl f (f acc x) xs
 --    b) foldr max 'z' "fear is the little death" == 'z'
 --    c) foldr (:) [True] [False, True] == [False,True,True]
 --    d) Always returns True?
+--    e) foldr ((++) . show) "" [1..5]
+--    f) foldl const 'a' [1..5] -- foldr in this case, will require type to be a Char (type of 'a')
+--    g) foldl const 0 "tacos" -- same reason as problem f
+--    h) foldr (flip const) 0 "bur" 
+--    i) foldr (flip const) 'z' [1..5]
