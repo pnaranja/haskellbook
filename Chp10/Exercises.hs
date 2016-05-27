@@ -71,3 +71,9 @@ myFoldl f acc (x:xs) = myFoldl f (f acc x) xs
 --    g) foldl const 0 "tacos" -- same reason as problem f
 --    h) foldr (flip const) 0 "bur" 
 --    i) foldr (flip const) 'z' [1..5]
+
+-- Take the first three letters of each String value in a list of strings concatenate the result
+pab =["Pizza", "Apple", "Bannana"]
+takeFirstLetters :: [String] -> String
+takeFirstLetters = foldl (\x y-> x ++ (take 1 y)) ""
+
