@@ -77,3 +77,6 @@ pab =["Pizza", "Apple", "Bannana"]
 takeFirstLetters :: [String] -> String
 takeFirstLetters = foldl (\x y-> x ++ (take 3 y)) ""
 
+takeFirstLetters' :: [String] -> String
+takeFirstLetters' = foldr (\y x-> x ++ (take 3 y)) ""
+
