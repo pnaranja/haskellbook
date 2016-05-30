@@ -15,5 +15,12 @@ theDatabase =
         DBDate (UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123))
     ]
 
+isDBDate :: DatabaseItem -> Bool
+isDBDate (DBDate _) = True
+isDBDate _ = False
+
+getDBDate :: DatabaseItem -> UTCTime
+getDBDate (DBDate theTime) = theTime
+
 filterDBDate :: [DatabaseItem] -> [UTCTime]
-filterDBDate = undefined
+filterDBDate = map getDBDate . (filter isDBDate)
