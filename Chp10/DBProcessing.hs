@@ -19,8 +19,12 @@ isDBDate :: DatabaseItem -> Bool
 isDBDate (DBDate _) = True
 isDBDate _ = False
 
-getDBDate :: DatabaseItem -> UTCTime
-getDBDate (DBDate theTime) = theTime
-
 filterDBDate :: [DatabaseItem] -> [UTCTime]
-filterDBDate = map getDBDate . (filter isDBDate)
+filterDBDate = map (\(DBDate theTime) -> theTime) . filter isDBDate
+
+isDBNumber :: DatabaseItem -> Bool
+isDBNumber (DBNumber _) = True
+isDBNumber _ = False
+
+filterDBNumber :: [DatabaseItem] -> [Integer]
+filterDBNumber = map (\(DBNumber theNum) -> theNum) . filter isDBNumber
