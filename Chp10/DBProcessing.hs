@@ -11,6 +11,7 @@ theDatabase :: [DatabaseItem]
 theDatabase = 
     [DBDate (UTCTime (fromGregorian 1911 5 1) (secondsToDiffTime 34123)),
         DBNumber 9001,
+        DBNumber 8001,
         DBString "Hello World!",
         DBDate (UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123))
     ]
@@ -42,3 +43,9 @@ getRecent (DBDate t1) (DBDate t2)
 getRecent (DBDate t1) _ = DBDate t1
 getRecent _ (DBDate t1) = DBDate t1
 getRecent _ _ = DBDate startUTCTime
+
+sumDb :: [DatabaseItem] -> Integer
+sumDb = sum . filterDBNumber 
+
+avgDb :: [DatabaseItem] -> Double
+avgDb items = fromIntegral (sumDb items) / fromIntegral (length $ filterDBNumber items)
