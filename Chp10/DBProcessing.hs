@@ -28,3 +28,17 @@ isDBNumber _ = False
 
 filterDBNumber :: [DatabaseItem] -> [Integer]
 filterDBNumber = map (\(DBNumber theNum) -> theNum) . filter isDBNumber
+
+mostRecent :: [DatabaseItem] -> UTCTime
+mostRecent = (\(DBDate t) -> t) . foldr getRecent (DBDate startUTCTime) . filter isDBDate
+
+startUTCTime :: UTCTime
+startUTCTime = UTCTime (fromGregorian 0000 0 0) (secondsToDiffTime 0) 
+
+getRecent :: DatabaseItem -> DatabaseItem -> DatabaseItem
+getRecent (DBDate t1) (DBDate t2)
+  | t1<t2 = DBDate t2
+  | otherwise = DBDate t1
+getRecent (DBDate t1) _ = DBDate t1
+getRecent _ (DBDate t1) = DBDate t1
+getRecent _ _ = DBDate startUTCTime
