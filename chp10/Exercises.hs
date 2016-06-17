@@ -80,3 +80,9 @@ takeFirstLetters = foldl (\x y-> x ++ (take 3 y)) ""
 takeFirstLetters' :: [String] -> String
 takeFirstLetters' = foldr (\y x-> x ++ (take 3 y)) ""
 
+
+-- Scan Exercises
+fibs' = 1 : scanl (+) 1 fibs'
+fibs = take 20 $ fibs'
+
+fibs2 = filter (<100) fibs
