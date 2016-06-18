@@ -86,3 +86,9 @@ fibs' = 1 : scanl (+) 1 fibs'
 fibs = take 20 $ fibs'
 
 fibs2 = filter (<100) fibs
+
+-- Factorial using scan
+-- Remember 0 factorial is 1!
+myFactorial :: Integer -> Integer
+myFactorial 0 = 1
+myFactorial x = last $ scanl (*) 1 [1..x]
