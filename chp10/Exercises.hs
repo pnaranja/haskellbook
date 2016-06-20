@@ -92,3 +92,20 @@ fibs2 = filter (<100) fibs
 myFactorial :: Integer -> Integer
 myFactorial 0 = 1
 myFactorial x = last $ scanl (*) 1 [1..x]
+
+
+-- Warmup and Review
+
+stops = "pbtdkg"
+vowels = "aeiou"
+
+stopsAndVowels :: [(Char,Char,Char)]
+stopsAndVowels = [ (x1,v1,x2) | x1 <- stops, x2 <- stops, v1 <-vowels, x1/=x2 ]
+
+withP :: (Char,Char,Char) -> Bool
+withP (_, _, 'p') = True
+withP ('p', _, _) = True
+withP _ = False
+
+stopsAndVowelsWithP :: [(Char,Char,Char)]
+stopsAndVowelsWithP = filter withP stopsAndVowels
