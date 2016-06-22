@@ -109,3 +109,9 @@ withP _ = False
 
 stopsAndVowelsWithP :: [(Char,Char,Char)]
 stopsAndVowelsWithP = filter withP stopsAndVowels
+
+nouns = ["man", "woman", "car", "truck", "boat", "bathroom", "classroom", "computer"]
+verbs = ["eats", "walks", "jumps", "runs", "breaks", "punches"]
+
+nounsAndVerbs :: [(String,String,String)]
+nounsAndVerbs = [ (x1,v1,x2) | x1 <- nouns, x2 <- nouns, v1 <-verbs, x1/=x2 ]
