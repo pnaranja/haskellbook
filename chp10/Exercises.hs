@@ -115,3 +115,11 @@ verbs = ["eats", "walks", "jumps", "runs", "breaks", "punches"]
 
 nounsAndVerbs :: [(String,String,String)]
 nounsAndVerbs = [ (x1,v1,x2) | x1 <- nouns, x2 <- nouns, v1 <-verbs, x1/=x2 ]
+
+-- seekritFunc is a function that divides the total letters of the string by the number of words in the string
+-- Be more precise - use fractional division
+seekritFunc' :: Fractional a => String -> a
+seekritFunc' x = (fromInteger $ toInteger (sum $ map length $ words x)) / (fromInteger $ toInteger (length $ words x))
+
+seekritFunc'' :: Fractional a => String -> a
+seekritFunc'' x = foldr1 (/) (map (fromInteger . toInteger) [sum $ map length $ words x , length $ words x])
