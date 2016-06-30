@@ -133,3 +133,15 @@ myAny f lst = myOr $ map f lst
 myAny' f = myOr . map f
 myAny'' f = (.) myOr (map f)
 myAny''' = (myOr .) . map   -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
+
+myElem :: Eq a => a -> [a] -> Bool
+myElem x lst = myAny (x==) lst
+myElem' x = myAny (x==)
+
+myReverse :: [a] -> [a]
+myReverse = foldl (flip (:)) []
+
+myMap :: (a->b) -> [a] -> [b]
+myMap f = foldr (\x y-> f x : y) []
+myMap' :: (a->b) -> [a] -> [b]
+myMap' = flip foldr ([]) . ((:) .)  -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
