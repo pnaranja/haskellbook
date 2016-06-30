@@ -123,3 +123,13 @@ seekritFunc' x = (fromInteger $ toInteger (sum $ map length $ words x)) / (fromI
 
 seekritFunc'' :: Fractional a => String -> a
 seekritFunc'' x = foldr1 (/) (map (fromInteger . toInteger) [sum $ map length $ words x , length $ words x])
+
+myOr :: [Bool] -> Bool
+myOr = foldr (||) False
+
+-- Return True if any eval of f to an element in the list is True
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny f lst = myOr $ map f lst
+myAny' f = myOr . map f
+myAny'' f = (.) myOr (map f)
+myAny''' = (myOr .) . map   -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
