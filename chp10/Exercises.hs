@@ -144,4 +144,20 @@ myReverse = foldl (flip (:)) []
 myMap :: (a->b) -> [a] -> [b]
 myMap f = foldr (\x y-> f x : y) []
 myMap' :: (a->b) -> [a] -> [b]
-myMap' = flip foldr ([]) . ((:) .)  -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
+myMap' = flip foldr [] . ((:) .)  -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
+
+myFilter :: (a->Bool) -> [a] -> [a]
+myFilter f = foldr (\x y -> if f x then x:y else y) []
+
+-- Flatten a list of lists
+squish :: [[a]] -> [a]
+squish = foldr (\a b -> (foldr (:) [] a) ++ b) [] 
+
+-- Map function over list and concatenates the result
+squishMap :: (a -> [b]) -> [a] -> [b]
+squishMap f = squish . myMap f
+squishMap' = (squish .) . myMap  -- Got this from https://blunt.herokuapp.com.  Not sure how this works??
+
+-- The squish function in terms of squishMap
+squishAgain :: [[a]] -> [a]
+squishAgain = undefined
