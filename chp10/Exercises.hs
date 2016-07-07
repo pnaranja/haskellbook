@@ -161,3 +161,11 @@ squishMap' = (squish .) . myMap  -- Got this from https://blunt.herokuapp.com.  
 -- The squish function in terms of squishMap
 squishAgain :: [[a]] -> [a]
 squishAgain = undefined
+
+-- Take comparison function and a list, return greatest element based on last value returned GT
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy f = foldr1 (\x y -> if f x y == GT then x else y)
+--
+-- Take comparison function and a list, return greatest element based on last value returned GT
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy f = foldr1 (\x y -> if f x y == LT then x else y)
