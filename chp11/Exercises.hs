@@ -27,5 +27,35 @@ module Exercises where
         doge -> DogueDeBordeaux doge
     9. What is the type of DogueDeBordeaux "doggie!"
         DogueDeBordeaux String
-
 -}
+
+--Exercises Vehicles
+data Price = Price Integer deriving (Eq, Show)
+data Manufacturer = Mini | Mazda | Tata | PlaneManu deriving (Eq, Show)
+data Airline = PapuAir | CatapultsRUs | TakeYourChancesUnited deriving (Eq, Show)
+type Size = Integer
+
+data Vehicle = 
+    Car Manufacturer Price | Plane Airline Size deriving (Eq, Show)
+
+myCar = Car Mini (Price 14000)
+urCar = Car Mazda (Price 20000)
+clownCar = Car Tata (Price 7000)
+myPlane = Plane PapuAir 1000
+unitedPlane = Plane TakeYourChancesUnited 900
+
+isCar :: Vehicle -> Bool
+isCar (Car _ _)  =  True
+isCar  _         =  False
+
+isPlane :: Vehicle -> Bool
+isPlane (Plane _ _)  =  True
+isPlane  _         =  False
+
+areCars :: [Vehicle] -> [Bool]
+areCars = map isCar 
+
+getManu :: Vehicle -> Manufacturer
+getManu (Car manufacturer _) = manufacturer
+getManu _ = PlaneManu -- "Default" manufacturer
+
