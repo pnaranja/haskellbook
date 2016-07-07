@@ -27,4 +27,5 @@ module Exercises where
         doge -> DogueDeBordeaux doge
     9. What is the type of DogueDeBordeaux "doggie!"
         DogueDeBordeaux String
+
 -}
