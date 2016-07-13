@@ -100,5 +100,16 @@ tooManyGoats2 (Goats n) = n > 42
 -- Difference between newtype and type alias
 -- You can define typeclass instances of newtypes that differ from their
 -- instances
+class TooMany a where
+    tooMany :: a -> Bool
 
+instance TooMany Int where
+    tooMany n = n > 42
 
+-- Only works if we assign Int to the literal
+-- tooMany (42 :: Int)
+
+instance TooMany Goats where
+    tooMany (Goats n) = n > 42
+
+-- tooMany (Goats 3) = False
