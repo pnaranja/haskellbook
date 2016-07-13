@@ -75,4 +75,30 @@ data ProductExample = Example Int String deriving (Eq,Show)
     2. data Airline = PapuAir | CatapultsRUs | TakeYourChancesUnited -> 3
     3. Int16 -> 65536
     4. Int -> 18446744073709551614
-- }
+-}
+
+-- Unary Constructor
+-- Cardinality of Goats is the cardinality of the type argument (Int)
+data UnGoats = UnGoats Int deriving (Eq,Show)
+
+-- newtype
+-- Cardinality same as unary constructor
+-- Not allowed to be product or sum type or contain nullary constructors
+-- No runtime overhead compared to using data keyword - reuses representation
+--  of the type it contains
+
+tooManyGoats :: Int -> Bool
+tooManyGoats n = n > 42
+
+-- But what if there's different limits for different animals
+newtype Goats = Goats Int deriving (Eq, Show)
+newtype Cows = Cows Int deriving (Eq, Show)
+
+tooManyGoats2 :: Goats -> Bool
+tooManyGoats2 (Goats n) = n > 42
+
+-- Difference between newtype and type alias
+-- You can define typeclass instances of newtypes that differ from their
+-- instances
+
+
