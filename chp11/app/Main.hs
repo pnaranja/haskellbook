@@ -1,13 +1,18 @@
-module Exercises where
+module Main where
 
-{- 
+import Lib
+
+main :: IO ()
+main = someFunc
+
+{-
     Given:
     data DogueDeBordeaux doge = DogueDeBordeaux doge
 
     data Doggies a =
     Husky a
     | Mastiff a
-    deriving (Eq, Show) 
+    deriving (Eq, Show)
 
     1. Is Doggies a type constructor or a data constructor?
         Doggies is a type constructor
@@ -35,7 +40,7 @@ data Manufacturer = Mini | Mazda | Tata | PlaneManu deriving (Eq, Show)
 data Airline = PapuAir | CatapultsRUs | TakeYourChancesUnited deriving (Eq, Show)
 type Size = Integer
 
-data Vehicle = 
+data Vehicle =
     Car Manufacturer Price | Plane Airline Size deriving (Eq, Show)
 
 myCar = Car Mini (Price 14000)
@@ -53,9 +58,21 @@ isPlane (Plane _ _)  =  True
 isPlane  _         =  False
 
 areCars :: [Vehicle] -> [Bool]
-areCars = map isCar 
+areCars = map isCar
 
 getManu :: Vehicle -> Manufacturer
 getManu (Car manufacturer _) = manufacturer
 getManu _ = PlaneManu -- "Default" manufacturer
 
+data ProductExample = Example Int String deriving (Eq,Show)
+
+-- Algebraic datatypes - Describe the argument patterns in sum and product
+-- Cardinality of datatype - possible values it defines
+--  Example: Bool -> 2 , Int8 -> range is -128-127 so it's 256
+{--
+    Cardinality
+    1. data PugType = PugData -> 1
+    2. data Airline = PapuAir | CatapultsRUs | TakeYourChancesUnited -> 3
+    3. Int16 -> 65536
+    4. Int -> 18446744073709551614
+- }
