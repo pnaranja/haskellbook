@@ -1,3 +1,5 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Main where
 
 import Lib
@@ -99,7 +101,7 @@ tooManyGoats2 (Goats n) = n > 42
 
 -- Difference between newtype and type alias
 -- You can define typeclass instances of newtypes that differ from their
--- instances
+-- underlying type.  You can't do that for type aliases
 class TooMany a where
     tooMany :: a -> Bool
 
@@ -109,7 +111,20 @@ instance TooMany Int where
 -- Only works if we assign Int to the literal
 -- tooMany (42 :: Int)
 
+-- Now you want different behavior for Goats - you can handle more!
+-- Under the hood, it's still Int but the newtype declaration will allow
+-- you a custom instance
 instance TooMany Goats where
-    tooMany (Goats n) = n > 42
+    tooMany (Goats n) = n > 70
 
--- tooMany (Goats 3) = False
+-- tooMany (Goats 60) = False
+-- tooMany (Goats 72) = True
+
+-- Will not compile!!
+-- type PaulInt = Int
+-- instance TooMany PaulInt where
+--     tooMany n = n > 60
+
+-- Need Pragma {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+-- to derive class TooMany like this
+newtype Goats2 = Goats2 Int deriving (Eq, Show, TooMany)
