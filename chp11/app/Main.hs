@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Main where
 
@@ -128,3 +129,16 @@ instance TooMany Goats where
 -- Need Pragma {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -- to derive class TooMany like this
 newtype Goats2 = Goats2 Int deriving (Eq, Show, TooMany)
+
+-- Exercise Logic Goats
+newtype Pigs = Pigs (Int, String) deriving (Eq,Show)
+instance TooMany Pigs where
+    tooMany (Pigs (i, s)) = i>70 && s=="Pigs"
+
+newtype TwoGoats = TwoGoats (Int,Int) deriving (Eq,Show)
+instance TooMany TwoGoats where
+    tooMany (TwoGoats (x,y)) = x+y> 140
+
+-- From https://github.com/nackjicholson/haskellbook-solutions/blob/master/chapter11/exercises.hs
+instance (Num a, TooMany a) => TooMany (a,a) where
+    tooMany (x,y) = tooMany (x+y)
