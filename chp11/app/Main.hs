@@ -149,3 +149,8 @@ myNumba = Numba n -- gives warning and suggests to use NegativeLiterals
 
 -- Product Types --
 -- Carry multiple values around in a single data constructor
+-- Remember, Tuples are anonymous products! => (,) :: a -> b -> (a,b)
+data QuantumBool = QuantumTrue | QuantumFalse | QuantumBoth deriving (Eq, Show)
+data TwoQs = MkTwoQs QuantumBool QuantumBool deriving (Eq,Show)
+-- TwoQs has a data constructor (MkTwoQs) that takes two arguments =>
+-- cardinality of 3*3=9
