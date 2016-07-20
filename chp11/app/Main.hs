@@ -3,6 +3,7 @@
 module Main where
 
 import Lib
+import Data.Int
 
 main :: IO ()
 main = someFunc
@@ -128,3 +129,23 @@ instance TooMany Goats where
 -- Need Pragma {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -- to derive class TooMany like this
 newtype Goats2 = Goats2 Int deriving (Eq, Show, TooMany)
+
+
+-- Sum Types --
+
+data BigSmall = Big Bool | Small Bool deriving (Eq, Show)
+-- Bool is cardinality is 2.  Since there is a Sum Type, BigSmall is
+-- cardinality of 4
+
+data NumberOrBool = Numba Int8 | BoolyBool Bool deriving (Eq, Show)
+-- Cardinality of NumberOrBool is (Cardinality of Int8) + (Cardinality of
+-- Bool) = 256 + 2 = 258
+
+-- myNumba = Numba (-128) => -128 is a valid Int8 value but (-128) turns into
+--  (negate 128) but evaluates 128 first and complains!
+n = (-128)
+myNumba = Numba n -- gives warning and suggests to use NegativeLiterals
+
+
+-- Product Types --
+-- Carry multiple values around in a single data constructor
