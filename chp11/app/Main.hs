@@ -168,3 +168,20 @@ data QuantumBool = QuantumTrue | QuantumFalse | QuantumBoth deriving (Eq, Show)
 data TwoQs = MkTwoQs QuantumBool QuantumBool deriving (Eq,Show)
 -- TwoQs has a data constructor (MkTwoQs) that takes two arguments =>
 -- cardinality of 3*3=9
+--
+-- We could have also represented TwoQs as a type alias
+-- Type alias' create type constructors, not data constructors
+type TwoQs2 = (QuantumBool, QuantumBool)
+
+-- THE CARDINALITY OF A DATATYPE = HOW DIFFICULT IT IS TO REASON ABOUT IT
+
+-- Record Syntax
+-- Product types with additional syntax to provide accessors to fields
+data Person = MkPerson String Int deriving (Eq, Show)
+-- This is cardinality is HUGE!
+
+data PersonR = PersonR {name :: String, age :: Int} deriving (Show, Eq)
+-- name :: PersonR -> String
+-- age :: PersonR -> Int
+papu = PersonR "Papu" 5
+
