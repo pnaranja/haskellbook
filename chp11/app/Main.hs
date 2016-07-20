@@ -3,11 +3,11 @@
 
 module Main where
 
-import Lib
+import Jammin
 import Data.Int
 
 main :: IO ()
-main = someFunc
+main = undefined
 
 {-
     Given:
@@ -178,10 +178,13 @@ type TwoQs2 = (QuantumBool, QuantumBool)
 -- Record Syntax
 -- Product types with additional syntax to provide accessors to fields
 data Person = MkPerson String Int deriving (Eq, Show)
--- This is cardinality is HUGE!
+-- This cardinality is HUGE!
 
 data PersonR = PersonR {name :: String, age :: Int} deriving (Show, Eq)
 -- name :: PersonR -> String
 -- age :: PersonR -> Int
 papu = PersonR "Papu" 5
+
+
+-- Exercises: Jammin in src/Jammin.hs--
 
