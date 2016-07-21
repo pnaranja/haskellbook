@@ -21,13 +21,37 @@ instance Ord JamJars where
 
 
 row1 = Jam Peach 1
-row2 = Jam Peach 2
-row3 = Jam Peach 3
-row4 = Jam Peach 4
+row2 = Jam Apple 2
+row3 = Jam Peach 2
+row4 = Jam Blackberry 4
 row5 = Jam Peach 5
-row6 = Jam Peach 6
+row6 = Jam Plum 10
 allJam = [row1,row2,row3,row4,row5,row6]
 
 totalJars = sum (map amt allJam)
 -- Created max instance for this to work
 mostRow = maximum allJam
+
+-- Sort allJams by their Fruit
+-- Need to create instance of Ord Fruit
+instance Ord Fruit where
+    compare Peach Peach = EQ
+    compare Peach Plum = LT
+    compare Peach Apple = LT
+    compare Peach Blackberry = LT
+    compare Plum Plum = EQ
+    compare Plum Peach = GT
+    compare Plum Apple = LT
+    compare Plum Blackberry = LT
+    compare Apple Apple = EQ
+    compare Apple Peach = GT
+    compare Apple Plum = GT
+    compare Apple Blackberry = LT
+    compare Blackberry Blackberry = EQ
+    compare Blackberry Peach = GT
+    compare Blackberry Plum = GT
+    compare Blackberry Apple = GT
+
+compareKind (Jam k _) (Jam k' _) = compare k k'
+sortJams = sortBy compareKind allJam
+groupJam = groupBy (>) sortJams
