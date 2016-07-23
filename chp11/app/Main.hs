@@ -188,3 +188,13 @@ papu = PersonR "Papu" 5
 
 -- Exercises: Jammin in src/Jammin.hs--
 
+-- Normal Form --
+-- In Math, Normal Form means reduced to it's final result
+data Fiction = Fiction deriving Show
+data Nonfiction = Nonfiction deriving Show
+
+data BookType = FictionBook Fiction | NonfictionBook Nonfiction deriving Show
+
+type AuthorName = String
+data Author = Author (AuthorName, BookType) deriving Show -- Apply distributive property to get Normal Form
+data Author2 = Fiction AuthorName | Nonfiction BookType deriving Show
