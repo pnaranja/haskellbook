@@ -190,11 +190,25 @@ papu = PersonR "Papu" 5
 
 -- Normal Form --
 -- In Math, Normal Form means reduced to it's final result
-data Fiction = Fiction deriving Show
-data Nonfiction = Nonfiction deriving Show
+data Fiction = Fictions deriving Show
+data Nonfiction = Nonfictions deriving Show
 
 data BookType = FictionBook Fiction | NonfictionBook Nonfiction deriving Show
 
 type AuthorName = String
 data Author = Author (AuthorName, BookType) deriving Show -- Apply distributive property to get Normal Form
 data Author2 = Fiction AuthorName | Nonfiction BookType deriving Show
+
+-- Another normal form (sum of products)
+data Expr = Number Int | Add Expr Expr | Minus Expr Expr | Mult Expr Expr | Div Expr Expr
+
+
+-- Exercises: How did your Garden Grow --
+data FlowerType = Gardenia | Daisy | Rose | Lilac deriving Show
+
+type Gardener = String
+
+data Garden = Garden Gardener FlowerType deriving Show
+
+-- Normal form of Garden:
+data Garden2 = Gardener2 Gardenia | Gardener2 Daisy | Gardener2 Rose | Gardener2 Lilac deriving Show
