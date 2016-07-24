@@ -212,3 +212,20 @@ data Garden = Garden Gardener FlowerType deriving Show
 
 -- Normal form of Garden:
 data Garden2 = Gardener2 Gardenia | Gardener2 Daisy | Gardener2 Rose | Gardener2 Lilac deriving Show
+
+-- Constructing and Deconstructing Values --
+-- We can generate values or match on it and consume values
+data GuessWhat = Chickenbutt deriving (Eq, Show)
+data Id a = MkId a deriving (Eq, Show)
+data Product a b = Product a b deriving (Eq, Show)
+data Sum a b = First a | Second b deriving (Eq, Show)
+data RecordProduct a b = RecordProduct {pfirst :: a, psecond :: b} deriving (Eq,Show)
+
+newtype NumCow = NumCow Int deriving (Eq,Show)
+newtype NumPig = NumPig Int deriving (Eq,Show)
+
+-- Farmhouse and Farmhouse' are the same
+data Farmhouse = Farmhouse NumPig NumCow deriving (Eq,Show)
+type Farmhouse' = Product NumCow NumPig
+
+
