@@ -211,7 +211,7 @@ type Gardener = String
 data Garden = Garden Gardener FlowerType deriving Show
 
 -- Normal form of Garden:
-data Garden2 = Gardener2 Gardenia | Gardener2 Daisy | Gardener2 Rose | Gardener2 Lilac deriving Show
+data Garden2 = Gardenia2 Gardener | Daisy2 Gardener | Rose2 Gardener | Lilac2 Gardener deriving Show
 
 -- Constructing and Deconstructing Values --
 -- We can generate values or match on it and consume values
@@ -227,5 +227,11 @@ newtype NumPig = NumPig Int deriving (Eq,Show)
 -- Farmhouse and Farmhouse' are the same
 data Farmhouse = Farmhouse NumPig NumCow deriving (Eq,Show)
 type Farmhouse' = Product NumCow NumPig
+
+newtype NumSheep = NumSheep Int deriving (Eq,Show)
+
+-- BigFarmHouse and BigFarmHouse' are the same
+data BigFarmHouse = BigFarmHouse NumCow NumPig NumSheep deriving (Eq,Show)
+type BigFarmHouse' = Product NumCow (Product NumPig NumSheep)
 
 
