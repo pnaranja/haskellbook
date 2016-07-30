@@ -234,4 +234,31 @@ newtype NumSheep = NumSheep Int deriving (Eq,Show)
 data BigFarmHouse = BigFarmHouse NumCow NumPig NumSheep deriving (Eq,Show)
 type BigFarmHouse' = Product NumCow (Product NumPig NumSheep)
 
+-- Same for Sum
+type Name = String
+type Age = Int
+type LovesMud = Bool
 
+type PoundsOfWool = Int
+
+data CowInfo = CowInfo Name Age deriving (Eq, Show)
+
+data PigInfo = PigInfo Name Age LovesMud deriving (Eq,Show)
+
+data SheepInfo = SheepInfo Name Age PoundsOfWool deriving (Eq,Show)
+
+-- Animal and Animal' are the same
+data Animal = Cow CowInfo | Pig PigInfo | Sheep SheepInfo
+data Animal' = Sum CowInfo (Sum PigInfo SheepInfo)
+
+
+
+-- Constructing Values --
+
+-- Remember, data Id a = MkId a deriving (Eq, Show)
+idInt :: Id Integer
+idInt = MkId 10
+
+-- Functions themselves are merely values
+Identity :: Id (a->a)
+Identity = MkId $ (\x->x)
