@@ -278,3 +278,27 @@ data AskFm = AskFm deriving (Eq,Show)
 -- we mean to express
 socialNetwork :: Sum Twitter AskFm
 socialNetwork = First Twitter
+
+-- We can also represent this in it's own Data Type
+data SocialNetwork = Twitter' | AskFm' deriving (Eq,Show)
+
+-- Products that use Record Syntax --
+-- Remember, RecordProduct a b = RecordProduct {pfirst :: a, psecond :: b} deriving (Eq,Show)
+myRecord = RecordProduct 42 0.01
+myRecord' = RecordProduct {pfirst = 42, psecond = 0.01}
+
+data OperatingSystem = GNUPlus | OpenBSD | Mac | Windows deriving (Eq,Show)
+data ProgrammingLanguage = Haskell | Agda | Idris | PureScript deriving (Eq, Show)
+data Programmer = Programmer {os :: OperatingSystem, lang :: ProgrammingLanguage} deriving (Eq,Show)
+
+nineToFive :: Programmer
+nineToFive = Programmer {os = Mac, lang = Haskell}
+unicorn = Programmer {lang = Agda, os = GNUPlus}
+
+-- Exercise: Write a function that generates all possible values of Programmer
+allLangauges = [Haskell,Agda,Idris,PureScript]
+
+allProgrammers :: [Programmer]
+allProgrammers = undefined
+
+
