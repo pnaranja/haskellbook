@@ -5,6 +5,7 @@ module Main where
 
 import Jammin
 import Data.Int
+import Data.List
 
 main :: IO ()
 main = undefined
@@ -296,9 +297,10 @@ nineToFive = Programmer {os = Mac, lang = Haskell}
 unicorn = Programmer {lang = Agda, os = GNUPlus}
 
 -- Exercise: Write a function that generates all possible values of Programmer
-allLangauges = [Haskell,Agda,Idris,PureScript]
+allOperatingSystems = [GNUPlus,OpenBSD,Mac,Windows]
+allLanguages = [Haskell,Agda,Idris,PureScript]
 
 allProgrammers :: [Programmer]
-allProgrammers = undefined
+allProgrammers = nub [Programmer o l | o <- allOperatingSystems, l <- allLanguages]
 
 
