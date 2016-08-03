@@ -1,5 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE NegativeLiterals #-}
 
 module Main where
 
@@ -303,4 +304,52 @@ allLanguages = [Haskell,Agda,Idris,PureScript]
 allProgrammers :: [Programmer]
 allProgrammers = nub [Programmer o l | o <- allOperatingSystems, l <- allLanguages]
 
+-- Cannot partially create a record
+-- recordError = Programmer {os=GNUPlus}
+-- Use partial application of a data constructor
 
+data ThereYet = There Integer Float String Bool deriving (Eq,Show)
+
+-- Builder Pattern!
+nope :: Float -> String -> Bool -> ThereYet
+nope = There 10
+
+notYet :: String -> Bool -> ThereYet
+notYet = nope 25.5
+
+notQuite :: Bool -> ThereYet
+notQuite = notYet "WooHoo!"
+
+yess :: ThereYet
+yess = notQuite False
+
+
+-- Deconstructing values --
+--Remember a catamorphism is about descructuring lists
+
+newtype Name2 = Name2 String deriving Show
+newtype Acres = Acres String deriving Show
+
+data FarmerType = DairyFarmer | WheatFarmer | SoybeanFarmer deriving Show
+
+data Farmer = Farmer Name Acres FarmerType deriving Show
+
+-- Unpack the data inside the constructor
+isDairyFarmer :: Farmer -> Bool
+isDairyFarmer (Farmer _ _ DairyFarmer) = True
+isDairyFarmer _ = False
+
+-- Alternate way using Record syntax
+data FarmerRec = FarmerRec
+    {farmername :: Name
+    ,acres :: Acres
+    , farmerType :: FarmerType}
+
+isDairyFarmerRec :: Farmer -> Bool
+isDairyFarmerRec farmer =
+    case farmerType farmer of
+        DairyFarmer -> True
+        _ -> False
+
+
+-- Function type is exponential --
