@@ -353,3 +353,8 @@ isDairyFarmerRec farmer =
 
 
 -- Function type is exponential --
+-- Given a function a->b, the inhabitants is b^a
+-- For Example:
+--  a and b is Bool, then inhabitants is 4
+--  True->True, True->False, False->True, False->False
+-- The -> operator, in the algebra of types, is an exponential operator
