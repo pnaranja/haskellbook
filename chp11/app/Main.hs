@@ -461,3 +461,37 @@ quantFlip10 No = Both
 quantFlip10 Both = No
 -- and so on up to quantFlip27...
 
+-- a->b => b^a implementations.  Should be 2^3=8 implementations?
+convert1 :: Quantum -> Bool
+convert1 Yes = True
+convert1 No = True
+convert1 Both = True
+
+convert2 Yes = True
+convert2 No = True
+convert2 Both = False
+
+convert3 Yes = True
+convert3 No = False
+convert3 Both = True
+
+convert4 Yes = True
+convert4 No = False
+convert4 Both = False
+
+convert5 Yes = False
+convert5 No = True
+convert5 Both = True
+
+convert6 Yes = False
+convert6 No = False
+convert6 Both = True
+
+convert7 Yes = False
+convert7 No = True
+convert7 Both = False
+
+convert8 Yes = False
+convert8 No = False
+convert8 Both = False
+
