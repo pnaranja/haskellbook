@@ -495,3 +495,25 @@ convert8 Yes = False
 convert8 No = False
 convert8 Both = False
 
+-- Exercises: The Quad --
+data Quad = One | Two | Three | Four deriving (Eq,Show)
+
+-- How many different forms can this take?
+--
+-- eQuad :: Either Quad Quad
+-- eQuad = 4+4 = 4*2 = 8
+--
+-- prodQuad :: (Quad,Quad)
+-- prodQuad = 4*4 = 16
+--
+-- funcQuad :: Quad -> Quad
+-- funcQuad = 4^4 = 256
+--
+-- prodTBool :: (Bool,Bool,Bool)
+-- prodTBool = 2*2*2 = 8
+--
+-- gTwo :: Bool -> Bool -> Bool
+-- gTwo = 2^2^2 = 16
+--
+-- fTwo :: Bool -> Quad -> Quad
+-- fTwo = (2^4)^4 = 65536
