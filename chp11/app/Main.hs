@@ -346,8 +346,8 @@ data FarmerRec = FarmerRec
     , farmerType :: FarmerType}
 
 isDairyFarmerRec :: Farmer -> Bool
-isDairyFarmerRec farmer =
-    case farmerType farmer of
+isDairyFarmerRec (Farmer _ _ farmertype) =
+    case farmertype of
         DairyFarmer -> True
         _ -> False
 
@@ -404,14 +404,14 @@ quantProd5 = (No,No)
 quantProd6 :: (Quantum,Quantum)
 quantProd6 = (No,Both)
 
-quantProd6 :: (Quantum,Quantum)
-quantProd6 = (Both,Yes)
-
 quantProd7 :: (Quantum,Quantum)
-quantProd7 = (Both,No)
+quantProd7 = (Both,Yes)
 
 quantProd8 :: (Quantum,Quantum)
-quantProd8 = (Both,Both)
+quantProd8 = (Both,No)
+
+quantProd9 :: (Quantum,Quantum)
+quantProd9 = (Both,Both)
 
 -- 3^3
 -- Function types
@@ -517,3 +517,25 @@ data Quad = One | Two | Three | Four deriving (Eq,Show)
 --
 -- fTwo :: Bool -> Quad -> Quad
 -- fTwo = (2^4)^4 = 65536
+
+{-
+ Higher Kindred Types --
+ The kind *->* is waiting for a single * before it is applied
+ The kind *->*->* must be applied twice before it is a real type
+ Kinds > * (like *->*) are higher kindred types
+ For example:
+ 	:k [] => *->*
+ 	:k (,) => *->*->*
+-}
+
+{- 
+	Lists are polymorphic 
+	data [] a = [] | a : [a]
+
+	All non-alphanumeric operators are INFIX by default
+	All operators that start with a colon (:) must be an infix type or data constructor
+	
+	Example of infix dataconstructor
+	data myProduct a b = a :&: b deriving (Eq,Show)
+
+-}
