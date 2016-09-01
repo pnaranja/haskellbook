@@ -574,9 +574,13 @@ preorder (Node left a right) =
 
 -- Left, Center, Right
 inorder :: BinaryTree a -> [a]
-inorder = undefined
+inorder Leaf = []
+inorder (Node left a right) = 
+    (inorder left) ++ [a] ++ (inorder right)
 
 
 -- Right, Middle, Left
 postorder :: BinaryTree a -> [a]
-postorder = undefined
+postorder Leaf = []
+postorder (Node left a right) = 
+    (inorder right) ++ [a] ++ (inorder left)
