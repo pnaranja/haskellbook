@@ -7,6 +7,7 @@ module Main where
 import Jammin
 import Data.Int
 import Data.List
+import Data.Char
 
 main :: IO ()
 main = undefined
@@ -588,3 +589,22 @@ postorder (Node left a right) =
 -- Fold tree (in any order)
 foldtree :: (a->b->b) -> b -> BinaryTree a -> b
 foldtree f i tree = foldr f i (inorder tree)
+
+
+-- Vigenere cipher --
+shiftRight :: Int -> Char -> Char
+shiftRight i = chr . constrainToLetters . (+i) . ord
+
+-- ord 'a' == 97; ord 'z' == 122
+constrainToLetters :: Int -> Int
+constrainToLetters x
+ | x >= 97 && x <= 122 = x
+ | x > 122 = constrainToLetters ((mod x 122) + 96)
+ | x < 97 = constrainToLetters (97 - x + 96)
+ | otherwise = x
+
+findNumToShift :: Char -> Int
+findNumToShift = (\x->x - 97) . ord
+
+vigenereCipher :: String -> String -> String
+vigenereCipher str keyword = map ( \(lstr,lkey) ->shiftRight (findNumToShift lkey) lstr) (zip str keyword)
