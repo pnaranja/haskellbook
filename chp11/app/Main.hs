@@ -584,3 +584,7 @@ postorder :: BinaryTree a -> [a]
 postorder Leaf = []
 postorder (Node left a right) = 
     (inorder right) ++ [a] ++ (inorder left)
+
+-- Fold tree (in any order)
+foldtree :: (a->b->b) -> b -> BinaryTree a -> b
+foldtree f i tree = foldr f i (inorder tree)
