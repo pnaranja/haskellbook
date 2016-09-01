@@ -567,7 +567,9 @@ testTree' = Node (Node Leaf 3 Leaf) 1 (Node Leaf 4 Leaf)
 
 -- Middle, Left, Right
 preorder :: BinaryTree a -> [a]
-preorder = undefined
+preorder Leaf = []
+preorder (Node left a right) = 
+    a : (preorder left) ++ (preorder right)
 
 
 -- Left, Center, Right
