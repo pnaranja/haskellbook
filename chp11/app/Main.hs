@@ -556,4 +556,12 @@ insert' b (Node left a right)
   | b < a = Node (insert' b left) a right
   | b > a = Node left a (insert' b right)
 
+mapTree :: (a->b) -> BinaryTree a -> BinaryTree b
+mapTree _ Leaf = Leaf
+mapTree f (Node left a right) = 
+    Node (mapTree f left) (f a) (mapTree f right)
+
+
+testTree' = Node (Node Leaf 3 Leaf) 1 (Node Leaf 4 Leaf)
+-- mapTree (+1) testTree' = Node (Node Leaf 4 Leaf) 2 (Node Leaf 5 Leaf)
 
