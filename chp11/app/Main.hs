@@ -539,3 +539,21 @@ data Quad = One | Two | Three | Four deriving (Eq,Show)
 	data myProduct a b = a :&: b deriving (Eq,Show)
 
 -}
+
+
+-- Binary Trees --
+
+-- Need this an instance of Ord so we can have it in order (from Left->Right)
+data BinaryTree a =
+    Leaf
+  | Node (BinaryTree a) a (BinaryTree a) 
+    deriving (Eq, Show, Ord)
+
+insert' :: Ord a => a -> BinaryTree a -> BinaryTree a
+insert' b Leaf = Node Leaf b Leaf
+insert' b (Node left a right) 
+  | b == a = Node left a right
+  | b < a = Node (insert' b left) a right
+  | b > a = Node left a (insert' b right)
+
+
