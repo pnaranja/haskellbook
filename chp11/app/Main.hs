@@ -824,7 +824,15 @@ f t@(a, _) = do
 -- Return True if all the values in the 1st list appear in the 2nd list
 -- No need to be contiguous
 -- i.e isSubsequenceOf "blah” "wboloath" == True
-isSubsequenceOf' :: (Eq a) => [a] -> [a] -> Bool
+isSubsequenceOf'
+  :: (Eq a)
+  => [a] -> [a] -> Bool
 isSubsequenceOf' [] _ = True
 isSubsequenceOf' (x:rest) lst2 = elem x lst2 && isSubsequenceOf' rest lst2
 
+-- Split sentence into words, then tuple each word with the capitalized form of each
+capitalizeWords :: String -> [(String, String)]
+capitalizeWords = map (\str -> (capitalizeFirstLetter str, str)) . words
+
+capitalizeFirstLetter :: String -> String
+capitalizeFirstLetter (x:xs) = toUpper x : xs
