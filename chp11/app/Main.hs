@@ -42,30 +42,30 @@ main = undefined
 -}
 --Exercises Vehicles
 data Price =
-    Price Integer
-    deriving (Eq,Show)
+  Price Integer
+  deriving (Eq, Show)
 
 data Manufacturer
-    = Mini 
-    | Mazda 
-    | Tata 
-    | PlaneManu 
-    deriving (Eq,Show)
+  = Mini
+  | Mazda
+  | Tata
+  | PlaneManu
+  deriving (Eq, Show)
 
 data Airline
-    = PapuAir 
-    | CatapultsRUs 
-    | TakeYourChancesUnited 
-    deriving (Eq,Show)
+  = PapuAir
+  | CatapultsRUs
+  | TakeYourChancesUnited
+  deriving (Eq, Show)
 
 type Size = Integer
 
 data Vehicle
-    = Car Manufacturer
-          Price
-    | Plane Airline
-            Size
-    deriving (Eq,Show)
+  = Car Manufacturer
+        Price
+  | Plane Airline
+          Size
+  deriving (Eq, Show)
 
 myCar = Car Mini (Price 14000)
 
@@ -93,9 +93,9 @@ getManu (Car manufacturer _) = manufacturer
 getManu _ = PlaneManu -- "Default" manufacturer
 
 data ProductExample =
-    Example Int
-            String
-    deriving (Eq,Show)
+  Example Int
+          String
+  deriving (Eq, Show)
 
 -- Algebraic datatypes - Describe the argument patterns in sum and product
 -- Cardinality of datatype - possible values it defines
@@ -110,26 +110,25 @@ data ProductExample =
 -- Unary Constructor
 -- Cardinality of Goats is the cardinality of the type argument (Int)
 data UnGoats =
-    UnGoats Int
-    deriving (Eq,Show)
+  UnGoats Int
+  deriving (Eq, Show)
 
 -- newtype
 -- Cardinality same as unary constructor
 -- Not allowed to be product or sum type or contain nullary constructors
 -- No runtime overhead compared to using data keyword - reuses representation
 --  of the type it contains
-tooManyGoats
-    :: Int -> Bool
+tooManyGoats :: Int -> Bool
 tooManyGoats n = n > 42
 
 -- But what if there's different limits for different animals
 newtype Goats =
-    Goats Int
-    deriving (Eq,Show)
+  Goats Int
+  deriving (Eq, Show)
 
 newtype Cows =
-    Cows Int
-    deriving (Eq,Show)
+  Cows Int
+  deriving (Eq, Show)
 
 tooManyGoats2 :: Goats -> Bool
 tooManyGoats2 (Goats n) = n > 42
@@ -138,10 +137,10 @@ tooManyGoats2 (Goats n) = n > 42
 -- You can define typeclass instances of newtypes that differ from their
 -- underlying type.  You can't do that for type aliases
 class TooMany a  where
-    tooMany :: a -> Bool
+  tooMany :: a -> Bool
 
 instance TooMany Int where
-    tooMany n = n > 42
+  tooMany n = n > 42
 
 -- Only works if we assign Int to the literal
 -- tooMany (42 :: Int)
@@ -149,7 +148,7 @@ instance TooMany Int where
 -- Under the hood, it's still Int but the newtype declaration will allow
 -- you a custom instance
 instance TooMany Goats where
-    tooMany (Goats n) = n > 70
+  tooMany (Goats n) = n > 70
 
 -- tooMany (Goats 60) = False
 -- tooMany (Goats 72) = True
@@ -160,40 +159,41 @@ instance TooMany Goats where
 -- Need Pragma {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -- to derive class TooMany like this
 newtype Goats2 =
-    Goats2 Int
-    deriving (Eq,Show,TooMany)
+  Goats2 Int
+  deriving (Eq, Show, TooMany)
 
 -- Exercise Logic Goats
 newtype Pigs =
-    Pigs (Int, String)
-    deriving (Eq,Show)
+  Pigs (Int, String)
+  deriving (Eq, Show)
 
 instance TooMany Pigs where
-    tooMany (Pigs (i,s)) = i > 70 && s == "Pigs"
+  tooMany (Pigs (i, s)) = i > 70 && s == "Pigs"
 
 newtype TwoGoats =
-    TwoGoats (Int, Int)
-    deriving (Eq,Show)
+  TwoGoats (Int, Int)
+  deriving (Eq, Show)
 
 instance TooMany TwoGoats where
-    tooMany (TwoGoats (x,y)) = x + y > 140
+  tooMany (TwoGoats (x, y)) = x + y > 140
 
 -- From https://github.com/nackjicholson/haskellbook-solutions/blob/master/chapter11/exercises.hs
-instance (Num a, TooMany a) => TooMany (a, a) where
-    tooMany (x,y) = tooMany (x + y)
+instance (Num a, TooMany a) =>
+         TooMany (a, a) where
+  tooMany (x, y) = tooMany (x + y)
 
 -- Sum Types --
 data BigSmall
-    = Big Bool
-    | Small Bool
-    deriving (Eq,Show)
+  = Big Bool
+  | Small Bool
+  deriving (Eq, Show)
 
 -- Bool is cardinality is 2.  Since there is a Sum Type, BigSmall is
 -- cardinality of 4
 data NumberOrBool
-    = Numba Int8
-    | BoolyBool Bool
-    deriving (Eq,Show)
+  = Numba Int8
+  | BoolyBool Bool
+  deriving (Eq, Show)
 
 -- Cardinality of NumberOrBool is (Cardinality of Int8) + (Cardinality of
 -- Bool) = 256 + 2 = 258
@@ -207,15 +207,15 @@ myNumba = Numba n -- gives warning and suggests to use NegativeLiterals
 -- Carry multiple values around in a single data constructor
 -- Remember, Tuples are anonymous products! => (,) :: a -> b -> (a,b)
 data QuantumBool
-    = QuantumTrue 
-    | QuantumFalse 
-    | QuantumBoth 
-    deriving (Eq,Show)
+  = QuantumTrue
+  | QuantumFalse
+  | QuantumBoth
+  deriving (Eq, Show)
 
 data TwoQs =
-    MkTwoQs QuantumBool
-            QuantumBool
-    deriving (Eq,Show)
+  MkTwoQs QuantumBool
+          QuantumBool
+  deriving (Eq, Show)
 
 -- TwoQs has a data constructor (MkTwoQs) that takes two arguments =>
 -- cardinality of 3*3=9
@@ -228,15 +228,15 @@ type TwoQs2 = (QuantumBool, QuantumBool)
 -- Record Syntax
 -- Product types with additional syntax to provide accessors to fields
 data Person =
-    MkPerson String
-             Int
-    deriving (Eq,Show)
+  MkPerson String
+           Int
+  deriving (Eq, Show)
 
 -- This cardinality is HUGE!
 data PersonR = PersonR
-    { name :: String
-    , age :: Int
-    } deriving (Show,Eq)
+  { name :: String
+  , age :: Int
+  } deriving (Show, Eq)
 
 -- name :: PersonR -> String
 -- age :: PersonR -> Int
@@ -246,115 +246,115 @@ papu = PersonR "Papu" 5
 -- Normal Form --
 -- In Math, Normal Form means reduced to it's final result
 data Fiction =
-    Fictions 
-    deriving ((((((((Show))))))))
+  Fictions
+  deriving (Show)
 
 data Nonfiction =
-    Nonfictions 
-    deriving ((((((((Show))))))))
+  Nonfictions
+  deriving (Show)
 
 data BookType
-    = FictionBook Fiction
-    | NonfictionBook Nonfiction
-    deriving ((((((((Show))))))))
+  = FictionBook Fiction
+  | NonfictionBook Nonfiction
+  deriving (Show)
 
 type AuthorName = String
 
 data Author =
-    Author (AuthorName, BookType)
-    deriving ((((((((Show)))))))) -- Apply distributive property to get Normal Form
+  Author (AuthorName, BookType)
+  deriving (Show) -- Apply distributive property to get Normal Form
 
 data Author2
-    = Fiction AuthorName
-    | Nonfiction BookType
-    deriving ((((((((Show))))))))
+  = Fiction AuthorName
+  | Nonfiction BookType
+  deriving (Show)
 
 -- Another normal form (sum of products)
 data Expr
-    = Number Int
-    | Add Expr
+  = Number Int
+  | Add Expr
+        Expr
+  | Minus Expr
           Expr
-    | Minus Expr
-            Expr
-    | Mult Expr
-           Expr
-    | Div Expr
-          Expr
+  | Mult Expr
+         Expr
+  | Div Expr
+        Expr
 
 -- Exercises: How did your Garden Grow --
 data FlowerType
-    = Gardenia 
-    | Daisy 
-    | Rose 
-    | Lilac 
-    deriving ((((((((Show))))))))
+  = Gardenia
+  | Daisy
+  | Rose
+  | Lilac
+  deriving (Show)
 
 type Gardener = String
 
 data Garden =
-    Garden Gardener
-           FlowerType
-    deriving ((((((((Show))))))))
+  Garden Gardener
+         FlowerType
+  deriving (Show)
 
 -- Normal form of Garden:
 data Garden2
-    = Gardenia2 Gardener
-    | Daisy2 Gardener
-    | Rose2 Gardener
-    | Lilac2 Gardener
-    deriving ((((((((Show))))))))
+  = Gardenia2 Gardener
+  | Daisy2 Gardener
+  | Rose2 Gardener
+  | Lilac2 Gardener
+  deriving (Show)
 
 -- Constructing and Deconstructing Values --
 -- We can generate values or match on it and consume values
 data GuessWhat =
-    Chickenbutt 
-    deriving (Eq,Show)
+  Chickenbutt
+  deriving (Eq, Show)
 
 data Id a =
-    MkId a
-    deriving (Eq,Show)
+  MkId a
+  deriving (Eq, Show)
 
 data Product a b =
-    Product a
-            b
-    deriving (Eq,Show)
+  Product a
+          b
+  deriving (Eq, Show)
 
 data Sum a b
-    = First a
-    | Second b
-    deriving (Eq,Show)
+  = First a
+  | Second b
+  deriving (Eq, Show)
 
 data RecordProduct a b = RecordProduct
-    { pfirst :: a
-    , psecond :: b
-    } deriving (Eq,Show)
+  { pfirst :: a
+  , psecond :: b
+  } deriving (Eq, Show)
 
 newtype NumCow =
-    NumCow Int
-    deriving (Eq,Show)
+  NumCow Int
+  deriving (Eq, Show)
 
 newtype NumPig =
-    NumPig Int
-    deriving (Eq,Show)
+  NumPig Int
+  deriving (Eq, Show)
 
 -- Farmhouse and Farmhouse' are the same
 data Farmhouse =
-    Farmhouse NumPig
-              NumCow
-    deriving (Eq,Show)
+  Farmhouse NumPig
+            NumCow
+  deriving (Eq, Show)
 
 type Farmhouse' = Product NumCow NumPig
 
 newtype NumSheep =
-    NumSheep Int
-    deriving (Eq,Show)
+  NumSheep Int
+  deriving (Eq, Show)
 
 -- BigFarmHouse and BigFarmHouse' are the same
 data BigFarmHouse =
-    BigFarmHouse NumCow
-                 NumPig
-                 NumSheep
-    deriving (Eq,Show)
+  BigFarmHouse NumCow
+               NumPig
+               NumSheep
+  deriving (Eq, Show)
 
 type BigFarmHouse' = Product NumCow (Product NumPig NumSheep)
 
@@ -368,116 +368,109 @@ type LovesMud = Bool
 type PoundsOfWool = Int
 
 data CowInfo =
-    CowInfo Name
-            Age
-    deriving (Eq,Show)
+  CowInfo Name
+          Age
+  deriving (Eq, Show)
 
 data PigInfo =
-    PigInfo Name
-            Age
-            LovesMud
-    deriving (Eq,Show)
+  PigInfo Name
+          Age
+          LovesMud
+  deriving (Eq, Show)
 
 data SheepInfo =
-    SheepInfo Name
-              Age
-              PoundsOfWool
-    deriving (Eq,Show)
+  SheepInfo Name
+            Age
+            PoundsOfWool
+  deriving (Eq, Show)
 
 -- Animal and Animal' are the same
 data Animal
-    = Cow CowInfo
-    | Pig PigInfo
-    | Sheep SheepInfo
+  = Cow CowInfo
+  | Pig PigInfo
+  | Sheep SheepInfo
 
 data Animal' =
-    Sum CowInfo
-        (Sum PigInfo SheepInfo)
+  Sum CowInfo
+      (Sum PigInfo SheepInfo)
 
 -- Constructing Values --
 -- Remember, data Id a = MkId a deriving (Eq, Show)
-idInt
-    :: Id Integer
+idInt :: Id Integer
 idInt = MkId 10
 
 -- Functions themselves are merely values
-idIdentity
-    :: Id (a -> a)
-idIdentity = 
-    MkId
-        (\x -> 
-              x)
+idIdentity :: Id (a -> a)
+idIdentity = MkId (\x -> x)
 
 type Awesome = Bool
 
 -- Remember, type Name = String
-person
-    :: Product Name Awesome
+person :: Product Name Awesome
 person = Product "Simon" True
 
 -- Remember, Sum a b = First a | Second b deriving (Eq,Show)
 data Twitter =
-    Twitter 
-    deriving (Eq,Show)
+  Twitter
+  deriving (Eq, Show)
 
 data AskFm =
-    AskFm 
-    deriving (Eq,Show)
+  AskFm
+  deriving (Eq, Show)
 
 -- We have to use the data constructors generated by the definition
 -- of Sum in order to indicate which disjunction (Twitter or AskFm)
 -- we mean to express
-socialNetwork
-    :: Sum Twitter AskFm
+socialNetwork :: Sum Twitter AskFm
 socialNetwork = First Twitter
 
 -- We can also represent this in it's own Data Type
 data SocialNetwork
-    = Twitter' 
-    | AskFm' 
-    deriving (Eq,Show)
+  = Twitter'
+  | AskFm'
+  deriving (Eq, Show)
 
 -- Products that use Record Syntax --
 -- Remember, RecordProduct a b = RecordProduct {pfirst :: a, psecond :: b} deriving (Eq,Show)
 myRecord = RecordProduct 42 0.01
 
-myRecord' = 
-    RecordProduct
-    { pfirst = 42
-    , psecond = 0.01
-    }
+myRecord' =
+  RecordProduct
+  { pfirst = 42
+  , psecond = 0.01
+  }
 
 data OperatingSystem
-    = GNUPlus 
-    | OpenBSD 
-    | Mac 
-    | Windows 
-    deriving (Eq,Show)
+  = GNUPlus
+  | OpenBSD
+  | Mac
+  | Windows
+  deriving (Eq, Show)
 
 data ProgrammingLanguage
-    = Haskell 
-    | Agda 
-    | Idris 
-    | PureScript 
-    deriving (Eq,Show)
+  = Haskell
+  | Agda
+  | Idris
+  | PureScript
+  deriving (Eq, Show)
 
 data Programmer = Programmer
-    { os :: OperatingSystem
-    , lang :: ProgrammingLanguage
-    } deriving (Eq,Show)
+  { os :: OperatingSystem
+  , lang :: ProgrammingLanguage
+  } deriving (Eq, Show)
 
 nineToFive :: Programmer
-nineToFive = 
-    Programmer
-    { os = Mac
-    , lang = Haskell
-    }
+nineToFive =
+  Programmer
+  { os = Mac
+  , lang = Haskell
+  }
 
-unicorn = 
-    Programmer
-    { lang = Agda
-    , os = GNUPlus
-    }
+unicorn =
+  Programmer
+  { lang = Agda
+  , os = GNUPlus
+  }
 
 -- Exercise: Write a function that generates all possible values of Programmer
 allOperatingSystems = [GNUPlus, OpenBSD, Mac, Windows]
@@ -485,25 +478,21 @@ allOperatingSystems = [GNUPlus, OpenBSD, Mac, Windows]
 allLanguages = [Haskell, Agda, Idris, PureScript]
 
 allProgrammers :: [Programmer]
-allProgrammers = 
-    nub
-        [ Programmer o l
-        | o <- allOperatingSystems 
-        , l <- allLanguages ]
+allProgrammers =
+  nub [Programmer o l | o <- allOperatingSystems, l <- allLanguages]
 
 -- Cannot partially create a record
 -- recordError = Programmer {os=GNUPlus}
 -- Use partial application of a data constructor
 data ThereYet =
-    There Integer
-          Float
-          String
-          Bool
-    deriving (Eq,Show)
+  There Integer
+        Float
+        String
+        Bool
+  deriving (Eq, Show)
 
 -- Builder Pattern!
-nope
-    :: Float -> String -> Bool -> ThereYet
+nope :: Float -> String -> Bool -> ThereYet
 nope = There 10
 
 notYet :: String -> Bool -> ThereYet
@@ -518,43 +507,42 @@ yess = notQuite False
 -- Deconstructing values --
 --Remember a catamorphism is about descructuring lists
 newtype Name2 =
-    Name2 String
-    deriving ((((((((Show))))))))
+  Name2 String
+  deriving (Show)
 
 newtype Acres =
-    Acres String
-    deriving ((((((((Show))))))))
+  Acres String
+  deriving (Show)
 
 data FarmerType
-    = DairyFarmer 
-    | WheatFarmer 
-    | SoybeanFarmer 
-    deriving ((((((((Show))))))))
+  = DairyFarmer
+  | WheatFarmer
+  | SoybeanFarmer
+  deriving (Show)
 
 data Farmer =
-    Farmer Name
-           Acres
-           FarmerType
-    deriving ((((((((Show))))))))
+  Farmer Name
+         Acres
+         FarmerType
+  deriving (Show)
 
 -- Unpack the data inside the constructor
-isDairyFarmer
-    :: Farmer -> Bool
+isDairyFarmer :: Farmer -> Bool
 isDairyFarmer (Farmer _ _ DairyFarmer) = True
 isDairyFarmer _ = False
 
 -- Alternate way using Record syntax
 data FarmerRec = FarmerRec
-    { farmername :: Name
-    , acres :: Acres
-    , farmerType :: FarmerType
-    } 
+  { farmername :: Name
+  , acres :: Acres
+  , farmerType :: FarmerType
+  }
 
 isDairyFarmerRec :: Farmer -> Bool
-isDairyFarmerRec (Farmer _ _ farmertype) = 
-    case farmertype of
-        DairyFarmer -> True
-        _ -> False
+isDairyFarmerRec (Farmer _ _ farmertype) =
+  case farmertype of
+    DairyFarmer -> True
+    _ -> False
 
 -- Function type is exponential --
 -- Given a function a->b, the inhabitants is b^a
@@ -563,16 +551,15 @@ isDairyFarmerRec (Farmer _ _ farmertype) =
 --  True->True, True->False, False->True, False->False
 -- The -> operator, in the algebra of types, is an exponential operator
 data Quantum
-    = Yes 
-    | No 
-    | Both 
-    deriving (Eq,Show)
+  = Yes
+  | No
+  | Both
+  deriving (Eq, Show)
 
 -- 3 + 3 (or 3*2 ?)
 --Sum Types
 --In Prelude: data Either a b = Left a | Right b
-quantSum1
-    :: Either Quantum Quantum
+quantSum1 :: Either Quantum Quantum
 quantSum1 = Right Yes
 
 quantSum2 :: Either Quantum Quantum
@@ -593,8 +580,7 @@ quantSum6 = Left Both
 -- 3 * 3
 -- Product types
 -- You can think of tuple (a,b) as: data MyTuple a b = MyTuple a b
-quantProd1
-    :: (Quantum, Quantum)
+quantProd1 :: (Quantum, Quantum)
 quantProd1 = (Yes, Yes)
 
 quantProd2 :: (Quantum, Quantum)
@@ -623,8 +609,7 @@ quantProd9 = (Both, Both)
 
 -- 3^3
 -- Function types
-quantFlip1
-    :: Quantum -> Quantum
+quantFlip1 :: Quantum -> Quantum
 quantFlip1 Yes = Yes
 quantFlip1 No = Yes
 quantFlip1 Both = Yes
@@ -676,8 +661,7 @@ quantFlip10 Both = No
 
 -- and so on up to quantFlip27...
 -- a->b => b^a implementations.  Should be 2^3=8 implementations?
-convert1
-    :: Quantum -> Bool
+convert1 :: Quantum -> Bool
 convert1 Yes = True
 convert1 No = True
 convert1 Both = True
@@ -712,11 +696,11 @@ convert8 Both = False
 
 -- Exercises: The Quad --
 data Quad
-    = One 
-    | Two 
-    | Three 
-    | Four 
-    deriving (Eq,Show)
+  = One
+  | Two
+  | Three
+  | Four
+  deriving (Eq, Show)
 
 -- How many different forms can this take?
 --
@@ -760,15 +744,15 @@ data Quad
 -- Binary Trees --
 -- Need this an instance of Ord so we can have it in order (from Left->Right)
 data BinaryTree a
-    = Leaf 
-    | Node (BinaryTree a)
-           a
-           (BinaryTree a)
-    deriving (Eq,Show,Ord)
+  = Leaf
+  | Node (BinaryTree a)
+         a
+         (BinaryTree a)
+  deriving (Eq, Show, Ord)
 
 insert'
-    :: Ord a
-    => a -> BinaryTree a -> BinaryTree a
+  :: Ord a
+  => a -> BinaryTree a -> BinaryTree a
 insert' b Leaf = Node Leaf b Leaf
 insert' b (Node left a right)
   | b == a = Node left a right
@@ -783,37 +767,30 @@ testTree' = Node (Node Leaf 3 Leaf) 1 (Node Leaf 4 Leaf)
 
 -- mapTree (+1) testTree' = Node (Node Leaf 4 Leaf) 2 (Node Leaf 5 Leaf)
 -- Middle, Left, Right
-preorder
-    :: BinaryTree a -> [a]
+preorder :: BinaryTree a -> [a]
 preorder Leaf = []
 preorder (Node left a right) = a : (preorder left) ++ (preorder right)
 
 -- Left, Center, Right
-inorder
-    :: BinaryTree a -> [a]
+inorder :: BinaryTree a -> [a]
 inorder Leaf = []
 inorder (Node left a right) = (inorder left) ++ [a] ++ (inorder right)
 
 -- Right, Middle, Left
-postorder
-    :: BinaryTree a -> [a]
+postorder :: BinaryTree a -> [a]
 postorder Leaf = []
 postorder (Node left a right) = (inorder right) ++ [a] ++ (inorder left)
 
 -- Fold tree (in any order)
-foldtree
-    :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldtree :: (a -> b -> b) -> b -> BinaryTree a -> b
 foldtree f i tree = foldr f i (inorder tree)
 
-
 -- Vigenere cipher --
-shiftRight
-    :: Int -> Char -> Char
+shiftRight :: Int -> Char -> Char
 shiftRight i = chr . constrainToLetters . (+ i) . ord
 
 -- ord 'a' == 97; ord 'z' == 122
-constrainToLetters
-    :: Int -> Int
+constrainToLetters :: Int -> Int
 constrainToLetters x
   | x >= 97 && x <= 122 = x
   | x > 122 = constrainToLetters ((mod x 122) + 96)
@@ -823,10 +800,7 @@ constrainToLetters x
 -- Provide the value from 'a' (97) of the character
 -- Used on the keyword letters
 findNumToShift :: Char -> Int
-findNumToShift = 
-    (\x -> 
-          x - 97) .
-    ord
+findNumToShift = (\x -> x - 97) . ord
 
 -- Repeat the correct number of times to fit the string to be used on the cipher
 fitKeyword :: String -> String -> String
@@ -834,8 +808,23 @@ fitKeyword str keyword = take (length str) $ concat $ repeat keyword
 
 -- Apply the Ceasar Cipher on the letters of the string based on a keyword
 vigenereCipher :: String -> String -> String
-vigenereCipher str keyword = 
-    map
-        (\(lstr,lkey) -> 
-              shiftRight (findNumToShift lkey) lstr)
-        (zip str (fitKeyword str keyword))
+vigenereCipher str keyword =
+  map
+    (\(lstr, lkey) -> shiftRight (findNumToShift lkey) lstr)
+    (zip str (fitKeyword str keyword))
+
+-- As-Patterns
+f
+  :: Show a
+  => (a, b) -> IO (a, b)
+f t@(a, _) = do
+  print a
+  return t
+
+-- Return True if all the values in the 1st list appear in the 2nd list
+-- No need to be contiguous
+-- i.e isSubsequenceOf "blah” "wboloath" == True
+isSubsequenceOf' :: (Eq a) => [a] -> [a] -> Bool
+isSubsequenceOf' [] _ = True
+isSubsequenceOf' (x:rest) lst2 = elem x lst2 && isSubsequenceOf' rest lst2
+
