@@ -8,6 +8,7 @@ import Jammin
 import Data.Int
 import Data.List
 import Data.Char
+import Data.Maybe
 
 main :: IO ()
 main = undefined
@@ -839,7 +840,12 @@ capitalizeFirstLetter (x:xs) = toUpper x : xs
 
 
 --Phone Exercise
-data DaPhone = DaPhone {key :: Char, letters :: String} deriving (Eq,Show)
+data DaPhone = DaPhone [Button] deriving (Eq,Show)
+
+type Button = (Char,String)
+
+thePhone = DaPhone [('0',"+_0"),('1',""),('2',"abc2"),('3',"def3"),('4',"ghi4"),('5',"jkl5"),
+                        ('6',"mno6"),('7',"pqrs7"),('8',"tuv8"),('9',"wxyz9"),('*',"^"),('#',".,")]
 
 convo :: [String] 
 convo =
@@ -858,6 +864,13 @@ type Digit = Char
 
 -- Valid presses: 1 and up
 type Presses = Int
+
+getButton :: DaPhone -> Char -> Button
+getButton (DaPhone btns) c = head $ filter (\(k,s)->elem c s) btns
+
+-- Get the index of the string -> extract from the Maybe and +1 since index starts from 0
+getPresses :: Button -> Char -> Presses
+getPresses (k,s) c = (+1) $ fromJust $ elemIndex c s 
 
 -- assuming the default phone definition
 -- 'a' -> [('2', 1)]
