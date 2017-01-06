@@ -839,6 +839,7 @@ capitalizeFirstLetter :: String -> String
 capitalizeFirstLetter (x:xs) = toUpper x : xs
 
 
+
 --Phone Exercise
 data DaPhone = DaPhone [Button] deriving (Eq,Show)
 
@@ -865,16 +866,32 @@ type Digit = Char
 -- Valid presses: 1 and up
 type Presses = Int
 
+
+-- Get the Phone button that corresponds to the char
 getButton :: DaPhone -> Char -> Button
-getButton (DaPhone btns) c = head $ filter (\(k,s)->elem c s) btns
+getButton (DaPhone btns) c = head $ filter (\(k,s)->inString c s) btns
+
+-- Determine if char is in the string regardless of case sensitivity
+inString :: Char -> String -> Bool
+inString c s = elem c s || elem c (map toUpper s)
+
+-- Extact the Digit from the Button
+getCharFromBtn :: Button -> Digit
+getCharFromBtn (c,s) = c
+
 
 -- Get the index of the string -> extract from the Maybe and +1 since index starts from 0
 getPresses :: Button -> Char -> Presses
 getPresses (k,s) c = (+1) $ fromJust $ elemIndex c s 
 
+getIndex :: Char -> String -> Maybe Int
+getIndex c s = head $ filter isJust [elemIndex c s, elemIndex c (map toUpper s)]
+
 -- assuming the default phone definition
 -- 'a' -> [('2', 1)]
 -- 'A' -> [('*', 1), ('2', 1)]
 reverseTaps :: DaPhone -> Char -> [(Digit, Presses)]
-reverseTaps = undefined
+reverseTaps d c = [(getCharFromBtn theButton, getPresses theButton c)]
+                    where
+                        theButton = getButton d c
 
