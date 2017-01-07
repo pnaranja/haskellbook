@@ -866,6 +866,11 @@ type Digit = Char
 -- Valid presses: 1 and up
 type Presses = Int
 
+-- "Safe head" function
+safeHead :: Eq a => [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:xs) = Just x
+
 
 -- Get the Phone button that corresponds to the char
 getButton :: DaPhone -> Char -> Button
@@ -887,11 +892,15 @@ getPresses (k,s) c = (+1) $ fromJust $ elemIndex c s
 getIndex :: Char -> String -> Maybe Int
 getIndex c s = head $ filter isJust [elemIndex c s, elemIndex c (map toUpper s)]
 
+
 -- assuming the default phone definition
 -- 'a' -> [('2', 1)]
 -- 'A' -> [('*', 1), ('2', 1)]
 reverseTaps :: DaPhone -> Char -> [(Digit, Presses)]
-reverseTaps d c = [(getCharFromBtn theButton, getPresses theButton c)]
+reverseTaps d c
+    | isUpper c = capitalization ++ [(getCharFromBtn theButton, getPresses theButton (toLower c))]
+    | otherwise = [(getCharFromBtn theButton, getPresses theButton c)]
                     where
                         theButton = getButton d c
+                        capitalization = [('*',1)]
 
