@@ -9,6 +9,7 @@ import Data.Int
 import Data.List
 import Data.Char
 import Data.Maybe
+import Control.Monad
 
 main :: IO ()
 main = undefined
@@ -845,7 +846,7 @@ data DaPhone = DaPhone [Button] deriving (Eq,Show)
 
 type Button = (Char,String)
 
-thePhone = DaPhone [('0',"+_0"),('1',""),('2',"abc2"),('3',"def3"),('4',"ghi4"),('5',"jkl5"),
+thePhone = DaPhone [('0',"+_0"),('1',"1"),('2',"abc2"),('3',"def3"),('4',"ghi4"),('5',"jkl5"),
                         ('6',"mno6"),('7',"pqrs7"),('8',"tuv8"),('9',"wxyz9"),('*',"^"),('#',".,")]
 
 convo :: [String] 
@@ -905,4 +906,7 @@ reverseTaps d c
                         theButton = getButton d c
                         capitalization = [('*',1)]
                         space = '_'
+
+cellPhonesDead :: DaPhone -> String -> [(Digit,Presses)]
+cellPhonesDead d s = join $ fmap (\x->reverseTaps d x) s
 
