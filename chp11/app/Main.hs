@@ -899,8 +899,10 @@ getIndex c s = head $ filter isJust [elemIndex c s, elemIndex c (map toUpper s)]
 reverseTaps :: DaPhone -> Char -> [(Digit, Presses)]
 reverseTaps d c
     | isUpper c = capitalization ++ [(getCharFromBtn theButton, getPresses theButton (toLower c))]
+    | c == ' ' = reverseTaps d space
     | otherwise = [(getCharFromBtn theButton, getPresses theButton c)]
                     where
                         theButton = getButton d c
                         capitalization = [('*',1)]
+                        space = '_'
 
