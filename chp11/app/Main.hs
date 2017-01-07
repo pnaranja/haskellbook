@@ -910,3 +910,11 @@ reverseTaps d c
 cellPhonesDead :: DaPhone -> String -> [(Digit,Presses)]
 cellPhonesDead d s = join $ fmap (\x->reverseTaps d x) s
 
+-- How many times to digits need to be pressed for a message
+fingerTaps :: [(Digit,Presses)] -> Presses
+fingerTaps = sum . map snd
+-- fingerTaps $ join $ map (cellPhonesDead thePhone) convo = 402
+
+-- Find most popular letter for each message
+mostPopularLetter :: String -> Char
+mostPopularLetter = undefined
