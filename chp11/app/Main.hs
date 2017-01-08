@@ -908,13 +908,19 @@ reverseTaps d c
                         space = '_'
 
 cellPhonesDead :: DaPhone -> String -> [(Digit,Presses)]
-cellPhonesDead d s = join $ fmap (\x->reverseTaps d x) s
+cellPhonesDead d s = join $ fmap (reverseTaps d) s
 
--- How many times to digits need to be pressed for a message
+
+-- How many times do digits need to be pressed for a message
 fingerTaps :: [(Digit,Presses)] -> Presses
 fingerTaps = sum . map snd
--- fingerTaps $ join $ map (cellPhonesDead thePhone) convo = 402
 
--- Find most popular letter for each message
+-- Get most popular letter in a string
+-- 1. Get the list of taps per character in the string -> theTaps
+-- 2. Get the max taps
+-- 3. Get the index of the first instance of the max taps element in theTaps
+-- 4. Find the char corresponding to that index of the string
 mostPopularLetter :: String -> Char
-mostPopularLetter = undefined
+mostPopularLetter s = (!!) s (fromJust $ elemIndex (maximum theTaps) theTaps)
+                        where
+                            theTaps = map (fingerTaps . reverseTaps thePhone) s
