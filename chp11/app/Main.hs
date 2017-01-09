@@ -924,3 +924,19 @@ mostPopularLetter :: String -> Char
 mostPopularLetter s = (!!) s (fromJust $ elemIndex (maximum theTaps) theTaps)
                         where
                             theTaps = map (fingerTaps . reverseTaps thePhone) s
+
+-- Most popular letter OVERALL?
+-- 1. Get the most popular letter for each string
+-- 2. Group the letters in it's own array -> Array of strings
+-- 3. Find the lengths of each array of strings
+-- 4. Get the max length
+-- 5. Get the max length index and the corresponding group of letters
+-- 6. Return the first letter in that group
+coolestLtr :: [String] -> Char
+coolestLtr s = head $ (!!) (groupLetters s) (fromJust $ elemIndex (maximum $ getLengths s) (getLengths s))
+
+groupLetters :: [String] -> [String]
+groupLetters = group . sort . map mostPopularLetter
+
+getLengths :: [String] -> [Int]
+getLengths s = map length (groupLetters s)
