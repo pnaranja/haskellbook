@@ -940,3 +940,13 @@ groupLetters = group . sort . map mostPopularLetter
 
 getLengths :: [String] -> [Int]
 getLengths s = map length (groupLetters s)
+
+
+-- Most popular String OVERALL
+coolestStr :: [String] -> String
+coolestStr s = (!!) s (fromJust $ elemIndex (maximum strPresses) strPresses)
+                where
+                    strPresses = map getPressesFrmStr s
+
+getPressesFrmStr :: String -> Presses
+getPressesFrmStr =  fingerTaps . (cellPhonesDead thePhone)
