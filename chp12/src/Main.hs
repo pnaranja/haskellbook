@@ -1,5 +1,7 @@
 module Main where
 
+import Control.Applicative
+
 main :: IO ()
 main = putStrLn "Start chp12"
 
@@ -48,3 +50,32 @@ mkPerson3' (Right n) (Right a) = Right (Person n a)
 mkPerson3' (Left [NameEmpty]) (Right a) = Left [NameEmpty]
 mkPerson3' (Right n) (Left [AgeTooLow]) = Left [AgeTooLow]
 mkPerson3' (Left [NameEmpty]) (Left [AgeTooLow]) = Left [NameEmpty,AgeTooLow]
+
+-- Later on, learn that we can replace this with...
+mkPerson4 :: Name -> Age -> ValidatePerson Person
+mkPerson4 n a = liftA2 Person (nameOkay n) (ageOkay a)
+-- where liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+
+
+-- Kinds
+-- Type Constructors (Higher Kinded types) are types that take more types as arguments
+data Example a = Blah | RoofGoats | Woot a deriving Show
+-- :k Example --> Example :: * -> *
+-- Example must be applied to one type in order to become a concrete type represented by (*)
+--
+-- (,) is a two-tuple
+-- :k (,) --> (,) :: * -> * -> *
+-- :k (Int,Int) --> (Int,Int) :: *
+--
+-- Either is the same - needs two arguments
+-- :k Either --> Either :: * -> * -> *
+-- :k Either Int String --> Either Int String :: *
+--
+-- [] is also higher kinded
+-- :k [] --> [] :: * -> *
+-- :k [Int] --> [Int] :: *
+--
+-- Maybe is also higher kinded
+-- :k Maybe --> Maybe :: * -> *
+--
+-- Maybe [] will not work but Maybe [Int] will work
