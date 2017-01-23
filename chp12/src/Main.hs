@@ -79,3 +79,37 @@ data Example a = Blah | RoofGoats | Woot a deriving Show
 -- :k Maybe --> Maybe :: * -> *
 --
 -- Maybe [] will not work but Maybe [Int] will work
+--
+-- Also note:  The Arrow (->) refers to a need for application!
+-- Once the arrows are gone then no need to apply anything for a concrete type
+-- :k Maybe Char --> Maybe Char :: *
+
+--Safe version of tail:
+safeTail :: [a] -> Maybe [a]
+safeTail [] = Nothing
+safeTail (x:[]) = Nothing
+safeTail (x:xs) = Just xs
+
+-- Data Constructors are functions!
+data Paul = Paul Int deriving Show
+-- :t Paul --> Paul :: Int -> Paul
+
+-- Have polymorphic types
+-- Usually need to add the variable in the type constructor
+data Paul2 a = Paul2 a deriving Show
+-- :t Paul2 --> Paul2 :: a -> Paul2
+-- Paul2 4 = Paul2 4
+-- Paul2 "Naranja" = Paul2 "Naranja"
+-- Paul2 <$> [1,2,3] = [Paul2 1, Paul2 2, Paul2 3]
+-- Paul2 <$> "Hi" = [Paul2 H, Paul2 i]
+
+-- 12.5 - String Processing
+-- Break up String and replace "the" with "a"
+replaceThe :: String -> String
+replaceThe = undefined
+
+-- Nothing the string is "the", else Just a
+notThe :: String -> Maybe String
+notThe "the" = Nothing
+notThe a = Just a
+
