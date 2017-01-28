@@ -1,6 +1,7 @@
 module Main where
 
 import Control.Applicative
+import Data.Maybe
 
 main :: IO ()
 main = putStrLn "Start chp12"
@@ -89,6 +90,11 @@ safeTail :: [a] -> Maybe [a]
 safeTail [] = Nothing
 safeTail (x:[]) = Nothing
 safeTail (x:xs) = Just xs
+--
+--Safe version of head:
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:_) = Just x
 
 -- Data Constructors are functions!
 data Paul = Paul Int deriving Show
@@ -117,3 +123,20 @@ notThe :: String -> Maybe String
 notThe "the" = Nothing
 notThe a = Just a
 
+
+countBeforeTheVowel :: String -> Int
+countBeforeTheVowel = countHeadAndVowel 0 . words
+
+countHeadAndVowel :: Int -> [String] -> Int
+countHeadAndVowel acc [] = acc
+countHeadAndVowel acc ([a]) = acc
+countHeadAndVowel acc (a:b:c) = 
+    if ((isNothing $ notThe a) && (hasHeadVowel b)) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc c)
+
+hasHeadVowel :: String -> Bool
+hasHeadVowel str = fromMaybe False $ isVowel <$> safeHead str
+
+isVowel :: Char -> Bool
+isVowel x
+    | x=='a' || x=='e' || x=='i' || x=='o' || x=='u' = True
+    | otherwise = False
