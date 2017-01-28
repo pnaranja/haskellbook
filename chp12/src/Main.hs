@@ -106,7 +106,11 @@ data Paul2 a = Paul2 a deriving Show
 -- 12.5 - String Processing
 -- Break up String and replace "the" with "a"
 replaceThe :: String -> String
-replaceThe = undefined
+replaceThe str = unwords $ (nothingToA . notThe) <$> words str
+
+nothingToA :: Maybe String -> String
+nothingToA Nothing = "a"
+nothingToA (Just x) = x
 
 -- Nothing the string is "the", else Just a
 notThe :: String -> Maybe String
