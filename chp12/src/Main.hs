@@ -141,3 +141,8 @@ isVowel :: Char -> Bool
 isVowel x
     | x=='a' || x=='e' || x=='i' || x=='o' || x=='u' = True
     | otherwise = False
+
+
+-- Return the number of letters that are vowels in a word
+countVowels :: String -> Int
+countVowels str = length $ filter id $ isVowel <$> str
