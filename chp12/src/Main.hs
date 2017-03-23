@@ -156,3 +156,13 @@ countConsonants str = length $ filter not $ isVowel <$> str
 
 mkWord :: String -> Maybe Word'
 mkWord str = if (countVowels str) > (countConsonants str) then Nothing else Just (Word' str)
+
+-- Natural numbers
+data Nat = Zero | Succ Nat deriving (Eq,Show)
+
+natToInteger :: Nat -> Integer
+natToInteger Zero = 0
+natToInteger (Succ x) = 1 + natToInteger x
+
+integerToNat :: Integer -> Nat
+integerNat = undefined
