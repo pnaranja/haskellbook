@@ -146,3 +146,13 @@ isVowel x
 -- Return the number of letters that are vowels in a word
 countVowels :: String -> Int
 countVowels str = length $ filter id $ isVowel <$> str
+
+
+-- Write a function that counts the number of vowels in a string and the number of consonants. 
+-- If the number of vowels exceeds the number of consonants, the function returns Nothing.
+newtype Word' = Word' String deriving (Show, Eq)
+
+countConsonants str = length $ filter not $ isVowel <$> str
+
+mkWord :: String -> Maybe Word'
+mkWord str = if (countVowels str) > (countConsonants str) then Nothing else Just (Word' str)
