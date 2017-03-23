@@ -124,6 +124,7 @@ notThe "the" = Nothing
 notThe a = Just a
 
 
+-- Count the number of instances of "the" followed by a vowel-initial word
 countBeforeTheVowel :: String -> Int
 countBeforeTheVowel = countHeadAndVowel 0 . words
 
@@ -131,7 +132,7 @@ countHeadAndVowel :: Int -> [String] -> Int
 countHeadAndVowel acc [] = acc
 countHeadAndVowel acc ([a]) = acc
 countHeadAndVowel acc (a:b:c) = 
-    if ((isNothing $ notThe a) && (hasHeadVowel b)) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc c)
+    if ((isNothing $ notThe a) && (hasHeadVowel b)) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc (b:c))
 
 hasHeadVowel :: String -> Bool
 hasHeadVowel str = fromMaybe False $ isVowel <$> safeHead str
