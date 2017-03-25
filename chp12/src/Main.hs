@@ -173,3 +173,17 @@ integerToNat' :: Integer -> Nat
 integerToNat' 0 = Zero
 integerToNat' 1 = (Succ Zero)
 integerToNat' i = (Succ (integerToNat' (i-1)))
+
+
+-- Small Library for Maybe
+isJust' :: Maybe a -> Bool
+isJust' Nothing = False
+isJust' x = True
+
+isNothing' :: Maybe a -> Bool
+isNothing' Nothing = True
+isNothing' a = False
+
+mayybee :: b -> (a->b) -> Maybe a -> b
+mayybee _ _ Nothing = 0
+mayybee x f m = 
