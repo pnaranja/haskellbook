@@ -164,5 +164,12 @@ natToInteger :: Nat -> Integer
 natToInteger Zero = 0
 natToInteger (Succ x) = 1 + natToInteger x
 
-integerToNat :: Integer -> Nat
-integerNat = undefined
+integerToNat :: Integer -> Maybe Nat
+integerToNat i 
+    | i<0 = Nothing
+    | otherwise = Just (integerToNat' i)
+
+integerToNat' :: Integer -> Nat
+integerToNat' 0 = Zero
+integerToNat' 1 = (Succ Zero)
+integerToNat' i = (Succ (integerToNat' (i-1)))
