@@ -184,6 +184,25 @@ isNothing' :: Maybe a -> Bool
 isNothing' Nothing = True
 isNothing' a = False
 
-mayybee :: b -> (a->b) -> Maybe a -> b
-mayybee _ _ Nothing = 0
-mayybee x f m = 
+mayybee :: Num b => b -> (a->b) -> Maybe a -> b
+mayybee x f m = fromMaybe x $ f <$> m
+
+fromMaybe' :: a -> Maybe a -> a
+fromMaybe' x Nothing = x
+fromMaybe' _ (Just y) = y
+
+listToMaybe' :: [a] -> Maybe a
+listToMaybe' [] = Nothing
+listToMaybe' arr = safeHead arr
+
+maybeToList' :: Maybe a -> [a]
+maybeToList' Nothing = []
+maybeToList' (Just a) = [a]
+
+catMaybes' :: [Maybe a] -> [a]
+catMaybes' a = fromJust <$> filter isJust a
+
+flipMaybe :: [Maybe a] -> Maybe [a]
+flipMaybe a
+    | any isNothing' a = Nothing
+    | otherwise = Just (catMaybes' a)
