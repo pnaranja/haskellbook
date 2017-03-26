@@ -2,6 +2,7 @@ module Main where
 
 import Control.Applicative
 import Data.Maybe
+import Data.Bifunctor
 
 main :: IO ()
 main = putStrLn "Start chp12"
@@ -241,5 +242,9 @@ rights'' (x:xs)
     | not $ isRight x = rights'' xs
 
 partitionEithers' :: [Either a b] -> ([a],[b])
-partitionEithers' = undefined
+partitionEithers' x = (lefts'' x, rights'' x)
 
+-- Tried Data.Bifunctor.bimap but types don't match!
+eitherMaybe' :: (b->c) -> Either a b -> Maybe c
+eitherMaybe' f e = if isRight e then Just (f $ fromRight e) else Nothing
+--eitherMaybe' f e = if isRight e then Just (fromRight $ bimap f f e) else Nothing
