@@ -206,3 +206,40 @@ flipMaybe :: [Maybe a] -> Maybe [a]
 flipMaybe a
     | any isNothing' a = Nothing
     | otherwise = Just (catMaybes' a)
+
+
+-- Small Library for Either
+isLeft :: Either a b -> Bool
+isLeft (Left a) = True
+isLeft _ = False
+
+isRight :: Either a b -> Bool
+isRight (Right b) = True
+isRight _ = False
+
+-- UNSAFE! --
+fromLeft :: Either a b -> a
+fromLeft (Left a) = a
+
+fromRight :: Either a b -> b
+fromRight (Right b) = b
+--------------
+
+lefts' :: [Either a b] -> [a]
+lefts' a = fromLeft <$> filter isLeft a
+
+lefts'' :: [Either a b] -> [a]
+lefts'' [] = []
+lefts'' (x:xs)
+    | isLeft x = (fromLeft x) : lefts'' xs
+    | not $ isLeft x = lefts'' xs
+
+rights'' :: [Either a b] -> [b]
+rights'' [] = []
+rights'' (x:xs)
+    | isRight x = (fromRight x) : rights'' xs
+    | not $ isRight x = rights'' xs
+
+partitionEithers' :: [Either a b] -> ([a],[b])
+partitionEithers' = undefined
+
