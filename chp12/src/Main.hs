@@ -2,7 +2,7 @@ module Main where
 
 import Control.Applicative
 import Data.Maybe
-import Data.Bifunctor
+import Data.List
 
 main :: IO ()
 main = putStrLn "Start chp12"
@@ -232,13 +232,13 @@ lefts' a = fromLeft <$> filter isLeft a
 lefts'' :: [Either a b] -> [a]
 lefts'' [] = []
 lefts'' (x:xs)
-    | isLeft x = (fromLeft x) : lefts'' xs
+    | isLeft x = fromLeft x : lefts'' xs
     | not $ isLeft x = lefts'' xs
 
 rights'' :: [Either a b] -> [b]
 rights'' [] = []
 rights'' (x:xs)
-    | isRight x = (fromRight x) : rights'' xs
+    | isRight x = fromRight x : rights'' xs
     | not $ isRight x = rights'' xs
 
 partitionEithers' :: [Either a b] -> ([a],[b])
@@ -248,3 +248,13 @@ partitionEithers' x = (lefts'' x, rights'' x)
 eitherMaybe' :: (b->c) -> Either a b -> Maybe c
 eitherMaybe' f e = if isRight e then Just (f $ fromRight e) else Nothing
 --eitherMaybe' f e = if isRight e then Just (fromRight $ bimap f f e) else Nothing
+--
+-- Anamorphisms! -> Building up data structures!
+
+myIterate :: (a->a) -> a -> [a]
+myIterate f a = a : myIterate f (f a)
+
+myUnfoldr :: (b -> Maybe (a,b)) -> b -> [a]
+myUnfoldr f x = case f x of
+                 Just (a,b) -> a : myUnfoldr f b
+                 Nothing -> []
