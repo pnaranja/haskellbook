@@ -250,7 +250,8 @@ partitionEithers' x = (lefts'' x, rights'' x)
 eitherMaybe' :: (b->c) -> Either a b -> Maybe c
 eitherMaybe' f e = if isRight e then Just (f $ fromRight e) else Nothing
 --eitherMaybe' f e = if isRight e then Just (fromRight $ bimap f f e) else Nothing
---
+
+
 -- Anamorphisms! -> Building up data structures!
 
 myIterate :: (a->a) -> a -> [a]
@@ -260,3 +261,6 @@ myUnfoldr :: (b -> Maybe (a,b)) -> b -> [a]
 myUnfoldr f x = case f x of
                  Just (a,b) -> a : myUnfoldr f b
                  Nothing -> []
+
+betterIterate :: (a->a) -> a -> [a]
+betterIterate f = myUnfoldr (\x->Just (x,f x))
