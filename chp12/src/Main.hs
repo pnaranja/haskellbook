@@ -133,7 +133,7 @@ countHeadAndVowel :: Int -> [String] -> Int
 countHeadAndVowel acc [] = acc
 countHeadAndVowel acc ([a]) = acc
 countHeadAndVowel acc (a:b:c) = 
-    if ((isNothing $ notThe a) && (hasHeadVowel b)) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc (b:c))
+    if (isNothing $ notThe a) && (hasHeadVowel b) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc (b:c))
 
 hasHeadVowel :: String -> Bool
 hasHeadVowel str = fromMaybe False $ isVowel <$> safeHead str
@@ -156,7 +156,7 @@ newtype Word' = Word' String deriving (Show, Eq)
 countConsonants str = length $ filter not $ isVowel <$> str
 
 mkWord :: String -> Maybe Word'
-mkWord str = if (countVowels str) > (countConsonants str) then Nothing else Just (Word' str)
+mkWord str = if countVowels str > countConsonants str then Nothing else Just (Word' str)
 
 -- Natural numbers
 data Nat = Zero | Succ Nat deriving (Eq,Show)
@@ -172,8 +172,8 @@ integerToNat i
 
 integerToNat' :: Integer -> Nat
 integerToNat' 0 = Zero
-integerToNat' 1 = (Succ Zero)
-integerToNat' i = (Succ (integerToNat' (i-1)))
+integerToNat' 1 = Succ Zero
+integerToNat' i = Succ (integerToNat' (i-1))
 
 
 -- Small Library for Maybe
@@ -234,12 +234,14 @@ lefts'' [] = []
 lefts'' (x:xs)
     | isLeft x = fromLeft x : lefts'' xs
     | not $ isLeft x = lefts'' xs
+    | otherwise = []
 
 rights'' :: [Either a b] -> [b]
 rights'' [] = []
 rights'' (x:xs)
     | isRight x = fromRight x : rights'' xs
     | not $ isRight x = rights'' xs
+    | otherwise = []
 
 partitionEithers' :: [Either a b] -> ([a],[b])
 partitionEithers' x = (lefts'' x, rights'' x)
