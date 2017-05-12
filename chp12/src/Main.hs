@@ -264,3 +264,11 @@ myUnfoldr f x = case f x of
 
 betterIterate :: (a->a) -> a -> [a]
 betterIterate f = myUnfoldr (\x->Just (x,f x))
+
+-- Binary Tree Activity
+data BinaryTree a = Leaf | Node (BinaryTree a) a (BinaryTree a) deriving (Eq, Ord, Show)
+
+myUnfoldrBTree :: (a -> Maybe (a,b,a)) -> a -> BinaryTree b
+myUnfoldrBTree f x = case f x of
+                        Just (a,b,c) -> Node (myUnfoldrBTree f a) b (myUnfoldrBTree f c)
+                        Nothing -> Leaf
