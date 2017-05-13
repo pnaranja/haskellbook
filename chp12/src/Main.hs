@@ -2,7 +2,6 @@ module Main where
 
 import Control.Applicative
 import Data.Maybe
-import Data.List
 
 main :: IO ()
 main = putStrLn "Start chp12"
@@ -88,10 +87,9 @@ data Example a = Blah | RoofGoats | Woot a deriving Show
 
 --Safe version of tail:
 safeTail :: [a] -> Maybe [a]
+safeTail (_:xs) = Just xs
 safeTail [] = Nothing
-safeTail (x:[]) = Nothing
-safeTail (x:xs) = Just xs
---
+
 --Safe version of head:
 safeHead :: [a] -> Maybe a
 safeHead [] = Nothing
@@ -131,7 +129,7 @@ countBeforeTheVowel = countHeadAndVowel 0 . words
 
 countHeadAndVowel :: Int -> [String] -> Int
 countHeadAndVowel acc [] = acc
-countHeadAndVowel acc ([a]) = acc
+countHeadAndVowel acc ([_]) = acc
 countHeadAndVowel acc (a:b:c) = 
     if (isNothing $ notThe a) && (hasHeadVowel b) then (countHeadAndVowel (acc+1) c) else (countHeadAndVowel acc (b:c))
 
@@ -153,6 +151,7 @@ countVowels str = length $ filter id $ isVowel <$> str
 -- If the number of vowels exceeds the number of consonants, the function returns Nothing.
 newtype Word' = Word' String deriving (Show, Eq)
 
+countConsonants :: String -> Int
 countConsonants str = length $ filter not $ isVowel <$> str
 
 mkWord :: String -> Maybe Word'
@@ -179,11 +178,11 @@ integerToNat' i = Succ (integerToNat' (i-1))
 -- Small Library for Maybe
 isJust' :: Maybe a -> Bool
 isJust' Nothing = False
-isJust' x = True
+isJust' _ = True
 
 isNothing' :: Maybe a -> Bool
 isNothing' Nothing = True
-isNothing' a = False
+isNothing' _ = False
 
 mayybee :: Num b => b -> (a->b) -> Maybe a -> b
 mayybee x f m = fromMaybe x $ f <$> m
@@ -272,3 +271,6 @@ myUnfoldrBTree :: (a -> Maybe (a,b,a)) -> a -> BinaryTree b
 myUnfoldrBTree f x = case f x of
                         Just (a,b,c) -> Node (myUnfoldrBTree f a) b (myUnfoldrBTree f c)
                         Nothing -> Leaf
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild = myUnfoldrBTree (\x->if x == 0 then Nothing else Just (x-1,x, x-1))
