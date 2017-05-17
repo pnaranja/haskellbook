@@ -1,4 +1,4 @@
-name:                chp13
+name:                hangman
 version:             0.1.0.0
 -- synopsis:
 -- description:
@@ -13,15 +13,17 @@ build-type:          Simple
 cabal-version:       >=1.10
 extra-source-files:  README.md
 
-executable chp13
+executable hangman
   hs-source-dirs:      app
   main-is:             Main.hs
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
-                     , chp13
+                     , hangman
+                     , random
+                     , split
 
 library
-  hs-source-dirs:      src
+  hs-source-dirs:      lib
   exposed-modules:     Hello
                      , DogsRule
   default-language:    Haskell2010
