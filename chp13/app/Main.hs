@@ -55,11 +55,12 @@ getRandomWord = randomWord =<< gameWords
 -- 1. String the user is trying to guess
 -- 2. Characters user has picked correctly
 -- 3. Characters user has chosen so far
-data Puzzle = Puzzle String [Maybe Char] [Char] deriving Show
+data Puzzle = Puzzle String [Maybe Char] [Char]
 
---instance Show Puzzle where
---    show (Puzzle _ discovered guessed) =
---        (intersperse ' ' $ fmap renderPuzzleChar discovered) ++ " Guessed so far " ++ guessed
+instance Show Puzzle where
+    show (Puzzle _ discovered guessed) =
+        "\n" ++ (intersperse ' ' $ fmap renderPuzzleChar discovered) 
+            ++ "\nGuessed so far: " ++ (intersperse ',' guessed) ++ "\n"
 
 freshPuzzle :: String -> Puzzle
 freshPuzzle str = Puzzle str (fmap (const Nothing) str) [] 
@@ -69,3 +70,7 @@ charInWord (Puzzle str _ _) char = elem char str
 
 alreadyGuessed :: Puzzle -> Char -> Bool
 alreadyGuessed (Puzzle _ _ str) char = elem char str
+
+renderPuzzleChar :: Maybe Char -> Char
+renderPuzzleChar Nothing = '_'
+renderPuzzleChar (Just a) = a
