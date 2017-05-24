@@ -57,15 +57,15 @@ getRandomWord = randomWord =<< gameWords
 -- 1. String the user is trying to guess
 -- 2. Characters user has picked correctly
 -- 3. Characters user has chosen so far
-data Puzzle = Puzzle String [Maybe Char] [Char]
+data Puzzle = Puzzle String [Maybe Char] String
 
 -- How to show the puzzle on the command line
 -- First show the string with any correct guesses
 -- Then show all the letters that have been guessed
 instance Show Puzzle where
     show (Puzzle _ discovered guessed) =
-        "\n" ++ (intersperse ' ' $ fmap renderPuzzleChar discovered) 
-            ++ "\nGuessed so far: " ++ (intersperse ',' guessed) ++ "\n"
+        "\n" ++ intersperse ' ' (fmap renderPuzzleChar discovered)
+            ++ "\nGuessed so far: " ++ intersperse ',' guessed ++ "\n"
 
 freshPuzzle :: String -> Puzzle
 freshPuzzle str = Puzzle str (fmap (const Nothing) str) [] 
@@ -83,7 +83,7 @@ renderPuzzleChar (Just a) = a
 -- For fillInCharacter function
 instance Monoid Char where
     mempty = ' '
-    mappend m1 m2 = m1
+    mappend m1 _ = m1
 
 -- Insert a CORRECTLY GUESSED character in the string
 -- (fill in the '_' character(s)
@@ -92,7 +92,7 @@ instance Monoid Char where
 fillInCharacter :: Puzzle -> Char -> Puzzle
 fillInCharacter (Puzzle str discovered guessed) char = Puzzle str newdiscovered newguessed
     where
-        mapdiscovered = map (\c->if (c==char) then Just char else Nothing) str
+        mapdiscovered = map (\c->if c==char then Just char else Nothing) str
         newdiscovered = zipWith mappend mapdiscovered discovered
         newguessed = guessed ++ [char]
 
@@ -101,6 +101,6 @@ fillInCharacter (Puzzle str discovered guessed) char = Puzzle str newdiscovered 
 -- This function will be used within the IO monad
 handleGuess :: Puzzle -> Char -> IO Puzzle
 handleGuess p@(Puzzle str discovered guessed) char
-  | alreadyGuessed p char == True = putStrLn ("You already guessed " ++ [char]) >>= (\x->return p)
-  | charInWord p char == True =putStrLn "You guessed correctly!" >>= (\x->return (fillInCharacter p char))
-  | otherwise = putStrLn "Incorrect!" >>= \x->return $ Puzzle str discovered (guessed ++ [char])
+  | alreadyGuessed p char = putStrLn ("You already guessed " ++ [char]) >>= (\_->return p)
+  | charInWord p char = putStrLn "You guessed correctly!" >>= (\_->return (fillInCharacter p char))
+  | otherwise = putStrLn "Incorrect!" >>= \_->return $ Puzzle str discovered (guessed ++ [char])
