@@ -13,8 +13,8 @@ import System.Random (randomRIO)
 
 import Data.Monoid
 
-main :: IO ()
-main = do
+old_main :: IO ()
+old_main = do
   hSetBuffering stdout NoBuffering
   putStr "Please enter your name: "
   name <- getLine
@@ -104,3 +104,33 @@ handleGuess p@(Puzzle str discovered guessed) char
   | alreadyGuessed p char = putStrLn ("You already guessed " ++ [char]) >>= (\_->return p)
   | charInWord p char = putStrLn "You guessed correctly!" >>= (\_->return (fillInCharacter p char))
   | otherwise = putStrLn "Incorrect!" >>= \_->return $ Puzzle str discovered (guessed ++ [char])
+
+-- Stop game after certain number of guesses
+gameOver :: Puzzle -> IO ()
+gameOver (Puzzle str _ guessed)
+  | length guessed > 7 = putStrLn ("You lost!\nYou've passed the limit of guesses\nThe word was: "++ str) >>=  const exitSuccess
+  | otherwise = return ()
+
+-- If all discovered has been turned from Nothing->Just x, then exit game
+gameWin :: Puzzle -> IO ()
+gameWin (Puzzle _ discovered _)
+  | all isJust discovered = putStrLn "You win!" >>= const exitSuccess
+  | otherwise = return ()
+
+runGame :: Puzzle -> IO ()
+runGame puzzle = forever $ do
+    gameWin puzzle
+    gameOver puzzle
+    putStrLn $ "Current puzzle is: " ++ show puzzle
+    putStr "Guess a letter: "
+    guess <- getLine
+    case guess of
+      [c] -> handleGuess puzzle c >>= runGame
+      _ -> putStrLn "Your guess must be a single character"
+
+
+main :: IO ()
+main = do
+    word <- getRandomWord
+    let puzzle = freshPuzzle (fmap toLower word)
+    runGame puzzle
