@@ -6,7 +6,7 @@ import System.IO (stdout, hSetBuffering, BufferMode(NoBuffering))
 
 import Control.Monad (forever)
 import Data.Char (toLower)
-import Data.Maybe (isJust)
+import Data.Maybe (isJust, fromMaybe)
 import Data.List (intersperse)
 import System.Exit (exitSuccess)
 import System.Random (randomRIO)
@@ -65,7 +65,7 @@ data Puzzle = Puzzle String [Maybe Char] String
 instance Show Puzzle where
     show (Puzzle _ discovered guessed) =
         "\n" ++ intersperse ' ' (fmap renderPuzzleChar discovered)
-            ++ "\nGuessed so far: " ++ intersperse ',' guessed ++ "\n"
+            ++ "\nWrong guesses so far: " ++ intersperse ',' guessed ++ "\n"
 
 freshPuzzle :: String -> Puzzle
 freshPuzzle str = Puzzle str (fmap (const Nothing) str) [] 
@@ -74,7 +74,9 @@ charInWord :: Puzzle -> Char -> Bool
 charInWord (Puzzle str _ _) char = elem char str
 
 alreadyGuessed :: Puzzle -> Char -> Bool
-alreadyGuessed (Puzzle _ _ str) char = elem char str
+alreadyGuessed (Puzzle _ discovered str) char = elem char (str ++ discoveredToStr discovered)
+
+discoveredToStr = map (\x->fromMaybe ' ' x)
 
 renderPuzzleChar :: Maybe Char -> Char
 renderPuzzleChar Nothing = '_'
@@ -90,11 +92,10 @@ instance Monoid Char where
 -- Find out what matches in str, combine that list with the original discovered, and add char to guessed
 -- Using instance of Monoid for characters defined above
 fillInCharacter :: Puzzle -> Char -> Puzzle
-fillInCharacter (Puzzle str discovered guessed) char = Puzzle str newdiscovered newguessed
+fillInCharacter (Puzzle str discovered guessed) char = Puzzle str newdiscovered guessed
     where
         mapdiscovered = map (\c->if c==char then Just char else Nothing) str
         newdiscovered = zipWith mappend mapdiscovered discovered
-        newguessed = guessed ++ [char]
 
 
 -- Handle a guess from the user
@@ -121,7 +122,7 @@ runGame :: Puzzle -> IO ()
 runGame puzzle = forever $ do
     gameWin puzzle
     gameOver puzzle
-    putStrLn $ "Current puzzle is: " ++ show puzzle
+    putStrLn $ "\nCurrent puzzle is: " ++ show puzzle
     putStr "Guess a letter: "
     guess <- getLine
     case guess of
