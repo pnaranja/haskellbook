@@ -1,7 +1,5 @@
 module Main where
 
-import DogsRule
-import Hello (sayHello)
 import System.IO (stdout, hSetBuffering, BufferMode(NoBuffering))
 
 import Control.Monad (forever)
@@ -13,41 +11,36 @@ import System.Random (randomRIO)
 
 import Data.Monoid
 
-old_main :: IO ()
-old_main = do
-  hSetBuffering stdout NoBuffering
-  putStr "Please enter your name: "
-  name <- getLine
-  sayHello name
-  dogs
-
 minWordLength = 5
 maxWordLength = 9
 
-type WordList = [String]
+newtype WordList = WordList [String] deriving (Eq,Show)
 
 allWords :: IO WordList
 allWords = do
     dict <- readFile "data/dict.txt"
-    return (lines dict)
+    return $ WordList (lines dict)
 
 gameWords :: IO WordList
 gameWords = do
-    aw <- allWords
-    return $ filter acceptedLength aw
+    (WordList aw) <- allWords -- Destructuring WordList
+    return $ WordList (filter acceptedLength aw)
         where
             strLength x = length (x::String)
             acceptedLength x = strLength x > minWordLength && strLength x < maxWordLength
 
 lengthGameWords :: IO Int
-lengthGameWords = fmap length gameWords
+lengthGameWords = do
+    (WordList words) <- gameWords
+    return (length words)
 
 -- Get random index for game words (index must be length - 1)
 randomIndexInGameWords :: IO Int
 randomIndexInGameWords = (\x->randomRIO (0,x)) =<< fmap (\x->x-1) lengthGameWords
 
 randomWord :: WordList -> IO String
-randomWord wl = (\x->return (wl !! x)) =<< randomIndexInGameWords
+randomWord (WordList wl) = 
+    (\x->return (wl !! x)) =<< randomIndexInGameWords
 
 getRandomWord :: IO String
 getRandomWord = randomWord =<< gameWords
