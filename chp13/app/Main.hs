@@ -3,7 +3,7 @@ module Main where
 import System.IO (stdout, hSetBuffering, BufferMode(NoBuffering))
 
 import Control.Monad (forever)
-import Data.Char (toLower)
+import Data.Char (toLower, ord)
 import Data.Maybe (isJust, fromMaybe)
 import Data.List (intersperse)
 import System.Exit (exitSuccess)
@@ -128,3 +128,22 @@ main = do
     word <- getRandomWord
     let puzzle = freshPuzzle (fmap toLower word)
     runGame puzzle
+
+--EXTRA STUFF--
+palindrome :: IO () 
+palindrome = forever $ do
+    putStrLn "\nEnter a phrase and I'll check if it's a palindrome"
+    line1 <- getLine
+    line2 <- return $ lowerAndConstraintToLetters line1
+    case line2 == reverse line2 of
+        True -> putStrLn "It's a palindrome!" 
+        False -> putStrLn "Not a palindrome!" >>=  const exitSuccess
+
+constrainToLetters :: Char -> Bool
+constrainToLetters c
+ | x >= 97 && x <= 122 = True
+ | otherwise = False
+ where
+     x = ord c
+
+lowerAndConstraintToLetters = (filter constrainToLetters . map toLower)
