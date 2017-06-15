@@ -3,6 +3,7 @@ module Main where
 import Test.Hspec
 import Test.QuickCheck
 
+
 main :: IO ()
 main = hspec $ do
     describe "Divided by test1" $ do
@@ -50,6 +51,7 @@ testQuick1 = hspec $ do
 
 -- QuickCheck relies on typeclass Arbitrary and newtype Gen generating random data
 -- Use sample to see the random data
+-- sample :: Show a => Gen a -> IO ()
 -- sample (arbitary :: Gen Int)
 
 -- A trivial random generator of 1's , 1,2,3's and a-z
@@ -57,12 +59,40 @@ testQuick1 = hspec $ do
 trivialGenInt :: Gen Int
 trivialGenInt = return 1
 
+-- elements :: [a] -> Gen a
 oneTwoThree :: Gen Int
 oneTwoThree = elements [1,2,3,3,3,2,2,2,2,1]
+
+oneTwoThreePlusOne :: Gen Int
+oneTwoThreePlusOne = fmap (+1) oneTwoThree
 
 genLetters :: Gen Char
 genLetters = elements ['a'..'z']
 
+-- choose :: System.Random.Random a => (a,a) -> Gen a
 -- Use choose to randomly choose from a tuple
 genBool :: Gen Bool
 genBool = choose (True,False)
+
+genBool' :: Gen Bool
+genBool' = elements [False,True]
+
+genOrdering :: Gen Ordering
+genOrdering = elements [LT, EQ, GT]
+
+
+-- Generators with polymorphic type arguments
+
+-- sample' (genTuple :: Gen (Int,Float))
+genTuple :: (Arbitrary a, Arbitrary b) => Gen (a,b)
+genTuple = do
+    a <- arbitrary
+    b <- arbitrary
+    return (a,b)
+
+-- sample' (genMaybe :: Gen (Maybe Int))
+genMaybe :: Arbitrary a => Gen (Maybe a)
+genMaybe = do
+    a <- arbitrary
+    elements [Nothing, Just a]
+
