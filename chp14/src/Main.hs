@@ -96,3 +96,9 @@ genMaybe = do
     a <- arbitrary
     elements [Nothing, Just a]
 
+-- Using QuickCheck without Hspec
+prop_additionGreater :: Int -> Bool
+prop_additionGreater x = 5 `div` x  > x - 1
+
+runQc :: IO ()
+runQc = quickCheck prop_additionGreater
