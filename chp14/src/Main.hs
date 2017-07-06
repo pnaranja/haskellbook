@@ -102,3 +102,64 @@ prop_additionGreater x = 5 `div` x  > x - 1
 
 runQc :: IO ()
 runQc = quickCheck prop_additionGreater
+
+--
+--
+-- 14.6 Kicking around QuickCheck
+data Trivial = Trivial deriving (Eq,Show)
+
+-- Need "return" to put Trivial in the Gen monad
+trivialGen :: Gen Trivial
+trivialGen = return Trivial
+
+instance Arbitrary Trivial where
+    arbitrary = trivialGen
+
+-- sample trivialGen results in 10 Trivials
+-- Gen values are generators of random values that QuickCheck uses to get test values from
+
+
+data Identity a = Identity a deriving (Eq,Show)
+
+identityGen :: Arbitrary a => Gen (Identity a)
+identityGen = do
+    a <- arbitrary
+    return $ Identity a
+
+identityGen' :: Arbitrary a => Gen (Identity a)
+identityGen' = arbitrary >>= (\a->return $ Identity a)
+
+-- Eta reduce?
+identityGen'' :: Arbitrary a => Gen (Identity a)
+identityGen'' = arbitrary >>= return . Identity
+
+-- "mapping" (Identity a) to Gen a -> Gen (Identity a)
+identityGen''' :: Arbitrary a => Gen (Identity a)
+identityGen''' = fmap Identity arbitrary
+
+
+instance Arbitrary a => Arbitrary (Identity a) where
+    arbitrary = identityGen
+
+-- sample identityGenInt results in 10 Identity <random nums>
+identityGenInt :: Gen (Identity Int)
+identityGenInt = identityGen
+
+identityGenStr :: Gen (Identity String)
+identityGenStr = identityGen
+
+--
+-- Arbitrary Products
+--
+
+data Pair a b = Pair a b deriving (Show,Eq)
+
+pairGen :: (Arbitrary a, Arbitrary b) => Gen (Pair a b)
+pairGen = do
+    a <- arbitrary
+    b <- arbitrary
+    return $ Pair a b
+
+pairGen' :: (Arbitrary a, Arbitrary b) => Gen (Pair a b)
+pairGen' = undefined
+
