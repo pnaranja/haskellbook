@@ -161,5 +161,10 @@ pairGen = do
     return $ Pair a b
 
 pairGen' :: (Arbitrary a, Arbitrary b) => Gen (Pair a b)
-pairGen' = undefined
+pairGen' = arbitrary >>= (\a->arbitrary >>= (\b->return $ Pair a b)) 
 
+pairGen'' :: (Arbitrary a, Arbitrary b) => Gen (Pair a b)
+pairGen'' = arbitrary >>= (\a->arbitrary >>= return . Pair a)
+
+pairGenInString :: Gen (Pair Int String)
+pairGenInString = pairGen
