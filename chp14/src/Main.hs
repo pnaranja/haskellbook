@@ -2,6 +2,7 @@ module Main where
 
 import Test.Hspec
 import Test.QuickCheck
+import Test.QuickCheck.Gen (oneof)
 
 
 main :: IO ()
@@ -168,3 +169,13 @@ pairGen'' = arbitrary >>= (\a->arbitrary >>= return . Pair a)
 
 pairGenInString :: Gen (Pair Int String)
 pairGenInString = pairGen
+
+-- Arbitrary with Sum Types
+data Sum a b = First a | Second b deriving (Eq,Show)
+
+-- oneof :: [Gen (Sum a b)] -> Gen (Sum a b)
+sumGenEqual :: (Arbitrary a, Arbitrary b) => Gen (Sum a b)
+sumGenEqual = do
+    a <- arbitrary
+    b <- arbitrary
+    oneof [return $ First a, return $ Second b]
