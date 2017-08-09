@@ -1,0 +1,16 @@
+name: chp14
+version: 0.1.0.0
+license: BSD3
+author: Paul Naranja
+maintainer: Paul Naranja <paul.naranja@gmail.com>
+extra-source-files:
+    - README.md
+
+executables:
+    chp14:
+        main: Main.hs
+        source-dirs: src
+        dependencies:
+            - base >= 4.7 && 5
+            - hspec
+            - QuickCheck

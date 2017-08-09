@@ -1,0 +1,60 @@
+
+==================== FINAL INTERFACE ====================
+2017-08-09 03:54:09.007471 UTC
+
+interface main@main:Main 8002
+  interface hash: 7af23d4e75c743321f2032c8b3a2a668
+  ABI hash: a33cf2e68375366b6f47bdd35e1d6f81
+  export-list hash: 740195477ba554a973fb0c24f3d8284a
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 0766bd187604c731ea9bb7164486d7ee
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Main.main
+  Main.t1
+  Main.t2
+  Main.t3
+  Main.t4
+  Main.t5
+  Main.t6
+module dependencies:
+package dependencies: base-4.9.1.0* ghc-prim-0.5.0.0
+                      integer-gmp-1.0.0.1
+orphans: base-4.9.1.0:GHC.Base base-4.9.1.0:GHC.Float
+family instance modules: base-4.9.1.0:Control.Applicative
+                         base-4.9.1.0:Data.Either base-4.9.1.0:Data.Functor.Const
+                         base-4.9.1.0:Data.Monoid base-4.9.1.0:Data.Type.Equality
+                         base-4.9.1.0:GHC.Generics base-4.9.1.0:GHC.IO.Exception
+                         base-4.9.1.0:GHC.TypeLits
+import  -/  base-4.9.1.0:Data.Foldable 3e0b6967a1da89945d0e2d47266337a2
+import  -/  base-4.9.1.0:Data.Monoid 51cc9cd8c130d49ba96b7c2c2406022b
+import  -/  base-4.9.1.0:GHC.Base c4231c43c07e46080a26bf94094c7aa1
+import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
+import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
+import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
+83f529351410271e83fed952c86159e1
+  $trModule :: GHC.Types.Module
+0d166822e21f7182ece26123ea2cf341
+  main :: GHC.Types.IO ()
+396b5e7d4fe2b95c951c462691faac24
+  t1 :: [GHC.Integer.Type.Integer]
+194fa39140598a43c580b74aad96848a
+  t2 :: [GHC.Integer.Type.Integer]
+332eba39ff77bcddc892724847da7398
+  t3 :: [GHC.Integer.Type.Integer]
+a73bd389b0ed62bc65cffad158ffe518
+  t4 :: [GHC.Integer.Type.Integer]
+565e36c774c8a6299808898aa68b38c5
+  t5 :: Data.Monoid.Sum GHC.Integer.Type.Integer
+ca26319136d42e0a449ba754560df4a7
+  t6 :: Data.Monoid.Sum GHC.Types.Double
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+
