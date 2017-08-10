@@ -72,3 +72,34 @@ t18 = Last (Just 1) <> Last (Just 2)
 t19 = First (Nothing) <> First (Just 2)
 t20 = Last (Just 1) <> Last (Nothing)
 t21 = Last (Nothing) <> Last (Nothing)
+
+
+-- Reusing algebras by asking for algebras
+-- instance (Monoid a, Monoid b) => Monoid (a,b)
+-- instance (Monoid a, Monoid b, Monoid c) => Monoid (a,b,c)
+--
+-- It's ok if a,b,c cannot 'mappend'
+-- Below, False' and True' are not a Monoid, but that's ok
+data Booly a = False' | True' deriving (Eq, Show)
+instance Monoid (Booly a) where
+    mempty = False'
+    mappend False' _ = False'
+    mappend _ False' = False'
+    mappend True' True' = True'
+
+
+-- Exercise: Optional Monoid
+data Optional a = Nada | Only a deriving (Eq,Show)
+
+instance Monoid a => Monoid (Optional a) where
+    mempty = Nada
+    mappend Nada Nada = Nada
+    mappend Nada (Only a) = Only a
+    mappend (Only a) Nada = Only a
+    mappend (Only a) (Only b) = Only (a <> b)
+
+t22 = Only (Sum 1) <> Only (Sum 1)
+t23 = Only (Product 4) <> Only (Product 2)
+t24 = Only (Sum 1) <> Nada
+t25 = Only [1] <> Nada
+t26 = Nada <> Only (Sum 1)
