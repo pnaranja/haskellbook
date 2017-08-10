@@ -82,7 +82,7 @@ t21 = Last (Nothing) <> Last (Nothing)
 -- Below, False' and True' are not a Monoid, but that's ok
 data Booly a = False' | True' deriving (Eq, Show)
 instance Monoid (Booly a) where
-    mempty = False'
+    mempty = True'
     mappend False' _ = False'
     mappend _ False' = False'
     mappend True' True' = True'
