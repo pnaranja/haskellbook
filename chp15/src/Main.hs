@@ -1,6 +1,7 @@
 module Main where
 
 import Data.Monoid
+import Test.QuickCheck
 
 main :: IO ()
 main = do
@@ -123,3 +124,11 @@ madlibbinBetter' :: Exclamation -> Adverb -> Noun -> Adjective -> String
 madlibbinBetter' e adv noun adj = 
     mconcat[e,"! he said \'",adv,"\' as he jumped into his ",noun," and drove off with his ",adj," wife."]
 
+-- Using QuickCheck to prove theorems
+-- NOTE: you can bind infix function names as arguments to functions
+asc :: Eq a => (a -> a -> a) -> a -> a -> a -> Bool
+asc (<>) a b c = (a <> b) <> c == a <> (b <> c)
+asc' f a b c = (a `f` b) `f` c == a `f` (b `f` c)
+
+monoidAssoc :: (Eq m, Monoid m) => m -> m -> m -> Bool
+monoidAssoc a b c = (a <> b) <> c == a <> (b <> c)
