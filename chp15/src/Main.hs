@@ -132,3 +132,37 @@ asc' f a b c = (a `f` b) `f` c == a `f` (b `f` c)
 
 monoidAssoc :: (Eq m, Monoid m) => m -> m -> m -> Bool
 monoidAssoc a b c = (a <> b) <> c == a <> (b <> c)
+
+monoidLeftIdentity :: (Eq m, Monoid m) => m -> Bool
+monoidLeftIdentity a = mempty <> a == a
+
+monoidRightIdentity :: (Eq m, Monoid m) => m -> Bool
+monoidRightIdentity a = mempty <> a == a
+
+-- Failing a QuickCheck tests for Monoid
+data Bull = Fools | Twoo deriving (Eq, Show)
+
+instance Arbitrary Bull where
+ arbitrary = frequency [ (1, return Fools), (1, return Twoo) ]
+
+instance Monoid Bull where
+ mempty = Fools
+ mappend _ _ = Fools
+
+type BullMappend = Bull -> Bull -> Bull -> Bool
+
+-- These tests will fail:
+-- quickCheck (monoidLeftIdentity :: Bull -> Bool)
+-- quickCheck (monoidRightIdentity :: Bull -> Bool)
+-- Since mempty <> Twoo == Fools and Twoo <> mempty == Fools
+
+
+-- Exercise: Maybe Another Monoid
+-- Remember: data Optional a = Nada | Only a deriving (Eq,Show)
+newtype First' a = First' {getFirst' :: Optional a} deriving (Eq,Show)
+
+instance Monoid (First' a) where
+ mempty =  First' Nada
+ mappend Nada _ = Nada
+ mappend _ Nada = Nada
+ mappend a b = Only (a <> b)
